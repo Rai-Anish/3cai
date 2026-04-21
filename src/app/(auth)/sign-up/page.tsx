@@ -1,9 +1,14 @@
-import React from 'react'
+"use client";
 
-type Props = {}
+import { AuthForm } from "../_components/auth-form";
+import { useAuthHandler } from "../_hooks/use-auth-handler";
 
-export default function SignUpPage(props: Props){
+export default function SignUpPage() {
+  const { handleAuth } = useAuthHandler("sign-up");
+
   return (
-    <div>Sign Up</div>
-  )
+    <main className="">
+        <AuthForm type="sign-up" onSubmit={handleAuth} />
+    </main>
+  );
 }
