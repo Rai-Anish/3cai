@@ -1,6 +1,10 @@
 import { betterAuth } from "better-auth";
 import { nextCookies } from "better-auth/next-js";
-import { getVerificationTemplate, sendEmail } from "./email";
+import {
+  getUpdateTemplate,
+  getVerificationTemplate,
+  getWelcomeTemplate,
+} from "./email-template";
 import { getExistingAccountTemplate } from "./email-template";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "../db/index";
@@ -9,7 +13,9 @@ import { eq } from "drizzle-orm";
 import Stripe from "stripe";
 import { stripe } from "@better-auth/stripe";
 import { billingPlan } from "@/constant/billing";
-import { grantFreeTokens } from "./tokens/token-service";
+import { grantFreeTokens } from "../services/tokens/token-service";
+import { inngest } from "./inngest/client";
+import { getEmailByCustomer, sendEmail } from "./email";
 
 const stripeClient = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2026-03-25.dahlia",
@@ -70,11 +76,16 @@ export const auth = betterAuth({
         after: async (user) => {
           // Runs after every new user is created (email or social)
           await grantFreeTokens(user.id);
+
+          await inngest.send({
+            name: "token/grant-free",
+            data: { userId: user.id },
+          });
         },
       },
     },
   },
-  
+
   plugins: [
     nextCookies(),
     stripe({
@@ -84,6 +95,10 @@ export const auth = betterAuth({
       subscription: {
         enabled: true,
         plans: billingPlan,
+        onSubscriptionComplete: async ({ stripeSubscription }) => {
+          // ONLY log the ID, never the whole object
+          console.log("Sub completed for ID:", stripeSubscription.id);
+        },
       },
     }),
   ],

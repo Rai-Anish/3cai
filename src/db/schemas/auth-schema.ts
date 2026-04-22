@@ -128,7 +128,9 @@ export const tokenBalance = pgTable(
       .notNull()
       .unique()
       .references(() => user.id, { onDelete: "cascade" }),
-    balance: integer("balance").notNull().default(0),
+    subscriptionBalance: integer("subscriptionBalance").notNull().default(0),
+    // Tokens bought via top-ups (Never reset these)
+    creditBalance: integer("creditBalance").notNull().default(0),
     lifetimeGranted: integer("lifetime_granted").notNull().default(0),
     // For free users: when their tokens were last reset
     lastResetAt: timestamp("last_reset_at").defaultNow().notNull(),

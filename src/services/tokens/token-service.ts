@@ -1,7 +1,7 @@
 // lib/tokens/service.ts
 import { db } from "@/db";
 import { tokenBalance, tokenUsageLog } from "@/db/schemas";
-import { eq } from "drizzle-orm";
+import { and, eq, gte, sql } from "drizzle-orm";
 import { TOKEN_CONFIG, FeatureKey } from "./token-config";
 
 export async function grantFreeTokens(userId: string) {
@@ -11,7 +11,7 @@ export async function grantFreeTokens(userId: string) {
 
   await db.insert(tokenBalance).values({
     userId,
-    balance: TOKEN_CONFIG.FREE_INITIAL_GRANT,
+    subscriptionBalance: TOKEN_CONFIG.FREE_INITIAL_GRANT,
     lifetimeGranted: TOKEN_CONFIG.FREE_INITIAL_GRANT,
     lastResetAt: now,
     nextResetAt: nextReset,
@@ -33,32 +33,36 @@ type ConsumeResult =
   | { success: false; reason: "insufficient_tokens" | "no_balance_record" };
 
 // lib/tokens/service.ts
-export async function consumeTokens(
-  userId: string,
-  feature: FeatureKey,
-): Promise<ConsumeResult> {
-  const balance = await getTokenBalance(userId);
-  if (!balance) return { success: false, reason: "no_balance_record" };
-
+export async function consumeTokens(userId: string, feature: FeatureKey): Promise<ConsumeResult> {
   const cost = TOKEN_CONFIG.COSTS[feature];
-  if (balance.balance < cost) {
+
+  // Atomic Update: Only update if balance >= cost
+  const result = await db
+    .update(tokenBalance)
+    .set({ 
+        subscriptionBalance: sql`${tokenBalance.subscriptionBalance} - ${cost}`, 
+        updatedAt: new Date() 
+    })
+    .where(
+        and(
+            eq(tokenBalance.userId, userId),
+            gte(tokenBalance.subscriptionBalance, cost) // SQL-level check prevents race conditions
+        )
+    )
+    .returning();
+
+  if (result.length === 0) {
     return { success: false, reason: "insufficient_tokens" };
   }
 
-  await db.transaction(async (tx) => {
-    await tx
-      .update(tokenBalance)
-      .set({ balance: balance.balance - cost, updatedAt: new Date() })
-      .where(eq(tokenBalance.userId, userId));
-
-    await tx.insert(tokenUsageLog).values({
-      userId,
-      tokensUsed: cost,
-      feature,
-    });
+  // Log usage after successful deduction
+  await db.insert(tokenUsageLog).values({
+    userId,
+    tokensUsed: cost,
+    feature,
   });
 
-  return { success: true, remaining: balance.balance - cost };
+  return { success: true, remaining: result[0].subscriptionBalance };
 }
 
 export async function resetFreeUserTokens(userId: string) {
@@ -69,7 +73,7 @@ export async function resetFreeUserTokens(userId: string) {
   await db
     .update(tokenBalance)
     .set({
-      balance: TOKEN_CONFIG.FREE_BIWEEKLY_RESET,
+      subscriptionBalance: TOKEN_CONFIG.FREE_BIWEEKLY_RESET,
       lastResetAt: now,
       nextResetAt: nextReset,
       updatedAt: now,

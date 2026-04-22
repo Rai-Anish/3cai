@@ -2,10 +2,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
 import { tokenBalance } from "@/db/schemas";
-import { and, lte, isNull } from "drizzle-orm";
-import { resetFreeUserTokens } from "@/lib/tokens/token-service";
+import { lte, isNotNull } from "drizzle-orm";
+import { inngest } from "@/lib/inngest/client";
 
-// Protect this route — only your cron runner can call it
 export async function GET(req: NextRequest) {
   const authHeader = req.headers.get("authorization");
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
@@ -14,20 +13,25 @@ export async function GET(req: NextRequest) {
 
   const now = new Date();
 
-  // Find free users whose reset is due
-  // Free users have nextResetAt set; paid users don't need resets
+  // Only free users have nextResetAt set (paid users have null)
   const dueUsers = await db
     .select({ userId: tokenBalance.userId })
     .from(tokenBalance)
     .where(
-      and(
-        lte(tokenBalance.nextResetAt, now),
-        // Optionally: filter only users without active sub
-        // (or just reset everyone — paid users get ignored by consumeTokens anyway)
-      )
+      lte(tokenBalance.nextResetAt, now),
     );
 
-  await Promise.all(dueUsers.map((u) => resetFreeUserTokens(u.userId)));
+  if (dueUsers.length === 0) {
+    return NextResponse.json({ reset: 0 });
+  }
 
-  return NextResponse.json({ reset: dueUsers.length });
+  // Send one Inngest event per user — each gets retried independently
+  await inngest.send(
+    dueUsers.map((u) => ({
+      name: "token/reset-free-user" as const,
+      data: { userId: u.userId },
+    }))
+  );
+
+  return NextResponse.json({ queued: dueUsers.length });
 }

@@ -10,68 +10,88 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { toast } from "sonner";
-import { testConsumeToken } from "@/lib/test-consume-token";
+import { triggerToolAction } from "@/app/actions/tool-action";
 import { useRouter } from "next/navigation";
+import type { FeatureKey } from "@/services/tokens/token-config";
+
+const cardList = [
+  {
+    icon: IoChatboxEllipsesOutline,
+    title: "AI Career Q&A Chat",
+    description: "Get answers to your career questions with AI",
+    buttontxt: "Chat with AI",
+    color: "text-secondary",
+    feature: "ai_generation" as FeatureKey,
+  },
+  {
+    icon: AiOutlineFileSearch,
+    title: "AI Resume Analyzer",
+    description: "Get a detailed analysis of your resume with AI",
+    buttontxt: "Analyze Resume",
+    color: "text-primary",
+    feature: "ai_generation" as FeatureKey,
+  },
+  {
+    icon: FaRegMap,
+    title: "AI Career Roadmap Builder",
+    description: "Build a personalized career roadmap with AI",
+    buttontxt: "Build Roadmap",
+    color: "text-accent",
+    feature: "analysis" as FeatureKey,
+  },
+  {
+    icon: IoDocumentTextSharp,
+    title: "Cover Letter Generator",
+    description: "Generate a professional cover letter with AI",
+    buttontxt: "Generate Cover Letter",
+    color: "text-secondary",
+    feature: "export" as FeatureKey,
+  },
+] as const;
 
 export const AiTools = () => {
   const [loadingTool, setLoadingTool] = useState<string | null>(null);
   const router = useRouter();
 
-  const cardList = [
-    {
-      icon: IoChatboxEllipsesOutline,
-      title: "AI Career Q&A Chat",
-      description: "Get answers to your career questions with AI",
-      buttontxt: "Chat with AI",
-      color: "text-secondary",
-      feature: "ai_generation" as const,
-    },
-    {
-      icon: AiOutlineFileSearch,
-      title: "AI Resume Analyzer",
-      description: "Get a detailed analysis of your resume with AI",
-      buttontxt: "Analyze Resume",
-      color: "text-primary",
-      feature: "ai_generation" as const,
-    },
-    {
-      icon: FaRegMap,
-      title: "AI Career Roadmap Builder",
-      description: "Build a personalized career roadmap with AI",
-      buttontxt: "Build Roadmap",
-      color: "text-accent",
-      feature: "analysis" as const,
-    },
-    {
-      icon: IoDocumentTextSharp,
-      title: "Cover Letter Generator",
-      description: "Generate a professional cover letter with AI",
-      buttontxt: "Generate Cover Letter",
-      color: "text-secondary",
-      feature: "export" as const,
-    },
-  ];
-
-  async function handleToolClick(feature: "ai_generation" | "export" | "analysis", title: string) {
+  async function handleToolClick(feature: FeatureKey, title: string) {
+    if (loadingTool) return;
     setLoadingTool(title);
+
     try {
-      const result = await testConsumeToken(feature);
+      const result = await triggerToolAction(feature, title);
 
       if (!result.success) {
-        if (result.reason === "insufficient_tokens") {
-          toast.error("You're out of tokens", {
-            description: "Upgrade your plan to continue using AI tools.",
-            action: {
-              label: "Upgrade",
-              onClick: () => router.push("/pricing"),
-            },
-          });
-        } else if (result.reason === "unauthenticated") {
-          router.push("/sign-in");
-        } else {
-          toast.error("Something went wrong", {
-            description: result.reason,
-          });
+        switch (result.reason) {
+          case "insufficient_tokens":
+            if (result.isPaidUser) {
+              toast.error("Monthly token limit reached", {
+                description:
+                  "Your tokens will refresh on your next billing date.",
+              });
+            } else {
+              toast.error("Out of tokens", {
+                description: "Upgrade your plan to get more tokens.",
+                action: {
+                  label: "Upgrade",
+                  onClick: () => router.push("/pricing"),
+                },
+                duration: 6000,
+              });
+            }
+            break;
+          case "unauthenticated":
+            router.push("/sign-in");
+            break;
+          case "no_balance_record":
+            toast.error("Account issue", {
+              description:
+                "Your token balance could not be found. Please contact support.",
+            });
+            break;
+          default:
+            toast.error("Something went wrong", {
+              description: "Please try again.",
+            });
         }
         return;
       }
@@ -81,7 +101,7 @@ export const AiTools = () => {
       });
     } catch {
       toast.error("Request failed", {
-        description: "Please try again.",
+        description: "Please check your connection and try again.",
       });
     } finally {
       setLoadingTool(null);
@@ -125,14 +145,22 @@ export const AiTools = () => {
             <Button
               variant="tactical"
               size="tactical"
-              disabled={loadingTool === card.title}
+              disabled={!!loadingTool}
               onClick={() => handleToolClick(card.feature, card.title)}
               className={cn(
                 "relative z-10 w-full font-mono font-bold text-[10px] tracking-[0.2em] uppercase italic",
                 card.color,
+                loadingTool === card.title && "opacity-50 cursor-not-allowed",
               )}
             >
-              {loadingTool === card.title ? "Processing..." : card.buttontxt}
+              {loadingTool === card.title ? (
+                <span className="flex items-center gap-2">
+                  <span className="h-3 w-3 animate-spin rounded-full border border-current border-t-transparent" />
+                  Processing...
+                </span>
+              ) : (
+                card.buttontxt
+              )}
             </Button>
           </Card>
         ))}

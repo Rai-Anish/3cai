@@ -18,11 +18,16 @@ export function TokenBalance() {
   useEffect(() => {
     fetchTokenBalance()
       .then((data) => {
-        if (data) setBalance(data);
+        console.log("Token Data fetched:", data);
+        if (data) {
+          setBalance(data);
+        }
       })
+      .catch((err) => console.error("Failed to fetch balance:", err))
       .finally(() => setLoading(false));
   }, []);
 
+  // 1. Loading State
   if (loading) {
     return (
       <div className="flex items-center gap-2 text-sm text-muted-foreground animate-pulse">
@@ -32,6 +37,7 @@ export function TokenBalance() {
     );
   }
 
+  // 2. No Balance State (Render nothing if user has no token record)
   if (!balance) return null;
 
   const isLow = balance.balance <= 20;
