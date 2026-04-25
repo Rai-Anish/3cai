@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { aiCareerQnA } from "@/inngest/functions/token-functions";
+import { aiCareerQnA } from "@/inngest/functions/career-agent";
 
+export const maxDuration = 60;
 export async function POST(request: NextRequest) {
   try {
     const { userInput } = await request.json();
@@ -24,8 +25,6 @@ export async function POST(request: NextRequest) {
         ? firstTextMessage.content
         : "";
 
-    console.log("DIRECT AI OUTPUT:", content);
-
     return NextResponse.json({
       role: "assistant",
       content,
@@ -46,6 +45,8 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+
 
 
 

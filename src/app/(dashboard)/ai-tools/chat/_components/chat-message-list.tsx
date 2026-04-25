@@ -1,3 +1,4 @@
+import ReactMarkdown from "react-markdown";
 import { ChatMessage } from "./chat-shell";
 
 type ChatMessageListProps = {
@@ -5,10 +6,7 @@ type ChatMessageListProps = {
   loading: boolean;
 };
 
-export function ChatMessageList({
-  messages,
-  loading,
-}: ChatMessageListProps) {
+export function ChatMessageList({ messages, loading }: ChatMessageListProps) {
   const hasMessages = messages.length > 0;
 
   return (
@@ -20,7 +18,8 @@ export function ChatMessageList({
               Ask your next career question
             </h3>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">
-              Example: &quot;What skills do I need for a frontend developer role?&quot;
+              Example: &quot;What skills do I need for a frontend developer
+              role?&quot;
             </p>
           </div>
         </div>
@@ -42,10 +41,13 @@ export function ChatMessageList({
                       : "border border-border/60 bg-card text-card-foreground",
                   ].join(" ")}
                 >
-                  <div className="mb-1 text-[11px] font-medium uppercase tracking-wide opacity-70">
+                  <div className="mb-2 text-[11px] font-medium uppercase tracking-wide opacity-70">
                     {isUser ? "You" : "AI Coach"}
                   </div>
-                  <p className="whitespace-pre-wrap">{message.content}</p>
+
+                  <div className="prose prose-sm max-w-none prose-p:my-2 prose-ul:my-2 prose-ol:my-2 prose-li:my-1 dark:prose-invert">
+                    <ReactMarkdown>{message.content}</ReactMarkdown>
+                  </div>
                 </div>
               </div>
             );
@@ -63,4 +65,3 @@ export function ChatMessageList({
     </div>
   );
 }
-
