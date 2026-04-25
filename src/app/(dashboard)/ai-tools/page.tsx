@@ -1,8 +1,6 @@
 import React from 'react'
 
-type Props = {}
-
-export default function AiToolsPage({}: Props) {
+export default function AiToolsPage() {
   return (
     <div>AiToolsPage</div>
   )

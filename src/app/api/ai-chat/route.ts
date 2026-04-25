@@ -1,27 +1,51 @@
-import { inngest } from "@/inngest/client";
 import { NextRequest, NextResponse } from "next/server";
+import { aiCareerQnA } from "@/inngest/functions/token-functions";
 
 export async function POST(request: NextRequest) {
+  try {
     const { userInput } = await request.json();
-    
-    const resultIds = await inngest.send({
-        name: "aiCareerAgent",
-        data: {
-            userInput
-        }
-    }) as any;
 
-    const runId = resultIds[0].id;
+    const result = await aiCareerQnA.run(userInput);
 
+    const firstTextMessage = Array.isArray(result.output)
+      ? result.output.find(
+          (message) =>
+            typeof message === "object" &&
+            message !== null &&
+            "type" in message &&
+            message.type === "text" &&
+            "content" in message &&
+            typeof message.content === "string",
+        )
+      : null;
+
+    const content =
+      firstTextMessage && "content" in firstTextMessage
+        ? firstTextMessage.content
+        : "";
+
+    console.log("DIRECT AI OUTPUT:", content);
+
+    return NextResponse.json({
+      role: "assistant",
+      content,
+    });
+  } catch (error: unknown) {
+    const errorMessage =
+      error instanceof Error ? error.message : "An unexpected error occurred";
+
+    console.error("AI Chat Error:", errorMessage);
+
+    return NextResponse.json(
+      {
+        role: "assistant",
+        content: "",
+        error: errorMessage,
+      },
+      { status: 500 },
+    );
+  }
 }
 
-async function getRunState(runId: string) {
-    const result = await axios.get(
-        `https://api.inngest.com/v1/functions/aiCareerAgent/runs/${runId}`,
-        {
-            headers: {
-                Authorization: `Bearer ${process.env.INNGEST_SIGNING_KEY}`,
-            },
-        }
-    )
-}
+
+

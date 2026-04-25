@@ -1,10 +1,10 @@
-// src/app/api/inngest/route.ts
 import { serve } from "inngest/next";
 import { inngest } from "@/inngest/client";
 import {
   consumeTokensFunction,
   grantFreeTokensFunction,
   resetFreeUserTokensFunction,
+  aiCareerAgent,
 } from "@/inngest/functions/token-functions";
 
 export const { GET, POST, PUT } = serve({
@@ -13,5 +13,7 @@ export const { GET, POST, PUT } = serve({
     consumeTokensFunction,
     grantFreeTokensFunction,
     resetFreeUserTokensFunction,
+    aiCareerAgent,
   ],
 });
+
