@@ -1,8 +1,6 @@
-// lib/tokens/config.ts
 import { billingPlan } from "@/constant/billing";
 
-// Free plan = the "Basic" plan (priceId maps to $0)
-const FREE_PLAN = billingPlan.find((p) => p.name === "Basic")!;
+const FREE_PLAN = billingPlan.find((p) => p.name === "free")!;
 
 export const TOKEN_CONFIG = {
   FREE_INITIAL_GRANT: FREE_PLAN.limits.tokens,   // 100

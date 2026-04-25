@@ -10,7 +10,7 @@ export interface BillingPlan {
 
 export const billingPlan: BillingPlan[] = [
   {
-    name: "Basic",
+    name: "free",
     priceId: "price_1TOJQ4RaUpUkrJxzbUspAfS9", 
     price: "$0",
     limits: { tokens: 100 },
@@ -21,7 +21,7 @@ export const billingPlan: BillingPlan[] = [
     ],
   },
   {
-    name: "Pro",
+    name: "pro",
     priceId: "price_1TOJSuRaUpUkrJxzpaVV8Nwz", 
     price: "$9.99",
     limits: { tokens: 1000 },
@@ -33,7 +33,7 @@ export const billingPlan: BillingPlan[] = [
     ],
   },
   {
-    name: "Premium",
+    name: "premium",
     priceId: "price_1TOJUFRaUpUkrJxzcgGsuzIu", 
     price: "$15.99",
     limits: { tokens: 10000 },

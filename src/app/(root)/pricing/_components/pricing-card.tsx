@@ -39,18 +39,18 @@ export const PricingCard = ({ plan }: PricingCardProps) => {
       <div className="grow mb-12">
         <ul className="space-y-5">
           {plan.features.map((feature, idx) => (
-            <FeatureItem 
-              key={feature} 
-              feature={feature} 
-              isPro={isPro} 
+            <FeatureItem
+              key={feature}
+              feature={feature}
+              isPro={isPro}
               isFirst={idx === 0}
               planName={plan.name}
             />
           ))}
         </ul>
       </div>
-      <CreateSubscribeBtn plan={plan}  />    
-      
+      <CreateSubscribeBtn plan={plan} />
+
     </Card>
   );
 };

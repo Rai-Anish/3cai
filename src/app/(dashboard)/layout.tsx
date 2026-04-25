@@ -27,7 +27,7 @@ export default async function DashboardLayout({
           {/* Global Header */}
           <DashboardHeader />
           
-          <div className="max-w-7xl mx-auto p-8">
+          <div>
             {children}
           </div>
         </main>

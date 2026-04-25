@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/db";
 import { tokenBalance } from "@/db/schemas";
 import { lte, isNotNull } from "drizzle-orm";
-import { inngest } from "@/lib/inngest/client";
+import { inngest } from "@/inngest/client";
 
 export async function GET(req: NextRequest) {
   const authHeader = req.headers.get("authorization");

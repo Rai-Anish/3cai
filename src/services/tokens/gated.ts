@@ -1,4 +1,4 @@
-// lib/tokens/gate.ts
+
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { consumeTokens } from "./token-service";

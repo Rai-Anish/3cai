@@ -1,4 +1,4 @@
-// (dashboard)/_components/dashboard-header.tsx
+
 "use client";
 
 import { Bell, Clock } from "lucide-react";
@@ -11,18 +11,17 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { authClient } from "@/lib/auth-client";
-import { usePathname } from "next/navigation";
+import { TokenBalance } from "./token-balance";
 
 export function DashboardHeader() {
   const { data: session } = authClient.useSession();
-  const pathName = usePathname();
 
   return (
     <header className="flex h-16 items-center justify-between border-b border-border/40 px-8 bg-background/50 backdrop-blur-md sticky top-0 z-40">
       {/* Left Side: System Metadata */}
       <div className="flex items-center gap-4 font-mono">
         <div className="flex items-center gap-2 px-3 py-1 bg-primary/5 border border-primary/10 rounded-full">
-          {pathName.split("/")}
+          <TokenBalance />
         </div>
       </div>
 

@@ -7,7 +7,7 @@ import {
   getTokenBalance,
 } from "@/services/tokens/token-service";
 import { getUserSubscriptionStatus } from "@/services/tokens/check-subscription";
-import { inngest } from "@/lib/inngest/client";
+import { inngest } from "@/inngest/client";
 import { FeatureKey } from "@/services/tokens/token-config";
 
 type ToolActionResult =

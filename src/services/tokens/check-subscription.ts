@@ -1,4 +1,4 @@
-// lib/tokens/check-subscription.ts
+
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 

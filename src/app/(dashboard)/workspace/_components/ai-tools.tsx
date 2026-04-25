@@ -13,6 +13,9 @@ import { toast } from "sonner";
 import { triggerToolAction } from "@/app/actions/tool-action";
 import { useRouter } from "next/navigation";
 import type { FeatureKey } from "@/services/tokens/token-config";
+import { useSWRConfig } from "swr";
+
+const TOKEN_BALANCE_KEY = "token-balance";
 
 const cardList = [
   {
@@ -52,6 +55,7 @@ const cardList = [
 export const AiTools = () => {
   const [loadingTool, setLoadingTool] = useState<string | null>(null);
   const router = useRouter();
+  const { mutate } = useSWRConfig();
 
   async function handleToolClick(feature: FeatureKey, title: string) {
     if (loadingTool) return;
@@ -65,8 +69,7 @@ export const AiTools = () => {
           case "insufficient_tokens":
             if (result.isPaidUser) {
               toast.error("Monthly token limit reached", {
-                description:
-                  "Your tokens will refresh on your next billing date.",
+                description: "Your tokens will refresh on your next billing date.",
               });
             } else {
               toast.error("Out of tokens", {
@@ -96,6 +99,17 @@ export const AiTools = () => {
         return;
       }
 
+      await mutate(
+        TOKEN_BALANCE_KEY,
+        (current: { balance?: number } | undefined) => ({
+          ...(current ?? {}),
+          balance: result.remaining,
+        }),
+        false
+      );
+
+      mutate(TOKEN_BALANCE_KEY);
+
       toast.success(`${title} started`, {
         description: `${result.remaining} tokens remaining.`,
       });
@@ -110,34 +124,34 @@ export const AiTools = () => {
 
   return (
     <section className="py-12">
-      <div className="flex items-center gap-4 mb-8 px-1">
-        <h2 className="uppercase italic text-xl font-black tracking-tighter whitespace-nowrap">
+      <div className="mb-8 flex items-center gap-4 px-1">
+        <h2 className="whitespace-nowrap text-xl font-black tracking-tighter uppercase italic">
           Available AI Tools
         </h2>
         <Separator className="flex-1 bg-border/50" />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
         {cardList.map((card) => (
           <Card
             key={card.title}
-            className="relative group h-full flex flex-col items-start overflow-hidden border-border/40 bg-card/40 transition-all hover:border-border rounded-2xl p-8 gap-6"
+            className="group relative flex h-full flex-col items-start gap-6 overflow-hidden rounded-2xl border-border/40 bg-card/40 p-8 transition-all hover:border-border"
           >
-            <GlowBg className="opacity-40 group-hover:opacity-70 transition-opacity" />
+            <GlowBg className="opacity-40 transition-opacity group-hover:opacity-70" />
             <div
               className={cn(
-                "relative z-10 p-3 rounded-xl border border-border/50 bg-background/50",
-                card.color,
+                "relative z-10 rounded-xl border border-border/50 bg-background/50 p-3",
+                card.color
               )}
             >
-              <card.icon className="w-7 h-7" />
+              <card.icon className="h-7 w-7" />
             </div>
 
             <div className="relative z-10 flex-1 space-y-2">
               <h3 className="font-mono text-lg font-bold leading-tight tracking-tighter uppercase">
                 {card.title}
               </h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">
+              <p className="text-sm leading-relaxed text-muted-foreground">
                 {card.description}
               </p>
             </div>
@@ -148,9 +162,9 @@ export const AiTools = () => {
               disabled={!!loadingTool}
               onClick={() => handleToolClick(card.feature, card.title)}
               className={cn(
-                "relative z-10 w-full font-mono font-bold text-[10px] tracking-[0.2em] uppercase italic",
+                "relative z-10 w-full font-mono text-[10px] font-bold tracking-[0.2em] uppercase italic",
                 card.color,
-                loadingTool === card.title && "opacity-50 cursor-not-allowed",
+                loadingTool === card.title && "cursor-not-allowed opacity-50"
               )}
             >
               {loadingTool === card.title ? (
@@ -168,3 +182,4 @@ export const AiTools = () => {
     </section>
   );
 };
+

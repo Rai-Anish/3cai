@@ -11,7 +11,17 @@ const PUBLIC_ROUTES = [
 ];
 
 const AUTH_ROUTES = ["/sign-in", "/sign-up"];
-const PROTECTED_ROUTES = ["/workspace", "/settings", "/profile"];
+const PROTECTED_ROUTES = [
+  "/workspace", 
+  "/settings", 
+  "/profile",
+  "/billing",
+  "/dashboard",
+  "/subscription",
+  "/profile",
+  "/cancelled",
+  "/successful"
+];
 
 export async function proxy(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;

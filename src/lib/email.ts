@@ -1,12 +1,4 @@
 import nodemailer from "nodemailer";
-import { db } from "../db/index";
-
-export async function getEmailByCustomer(customerId: string) {
-  const u = await db.query.user.findFirst({
-    where: (table, { eq }) => eq(table.stripeCustomerId, customerId),
-  });
-  return u?.email;
-}
 
 const transporter = nodemailer.createTransport({
   service: "gmail",

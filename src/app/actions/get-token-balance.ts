@@ -13,7 +13,7 @@ export async function fetchTokenBalance() {
   if (!balance) return null;
 
   return {
-    balance: balance.balance,
+    balance: balance.subscriptionBalance,
     nextResetAt: balance.nextResetAt,
     lastResetAt: balance.lastResetAt,
   };

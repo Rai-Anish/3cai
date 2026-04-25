@@ -29,12 +29,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning className="dark">
-      <body
-        className={`${manrope.variable} ${spaceGrotesk.variable} antialiased`}
-        suppressHydrationWarning
-      >
-          <TooltipProvider>{children}</TooltipProvider>
-          <Toaster position="top-center" richColors />
+      <body className={`${manrope.variable} ${spaceGrotesk.variable} antialiased`}>
+        <TooltipProvider>
+          {children}
+        </TooltipProvider>
+        <Toaster position="top-center" richColors />
       </body>
     </html>
   );

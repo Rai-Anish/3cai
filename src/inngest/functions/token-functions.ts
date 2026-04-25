@@ -1,6 +1,7 @@
 // lib/inngest/functions/token-functions.ts
 import { inngest } from "../client";
 import { GetFunctionInput } from "inngest";
+import { createAgent, openai } from '@inngest/agent-kit';
 // lib/inngest/functions/token-functions.ts
 import type {
   TokenConsumeEvent,
@@ -39,7 +40,7 @@ export const consumeTokensFunction = inngest.createFunction(
       return {
         success: false,
         reason: result.reason,
-        currentBalance: balance.balance,
+        currentBalance: balance.subscriptionBalance,
       };
     }
 
@@ -82,3 +83,33 @@ export const resetFreeUserTokensFunction = inngest.createFunction(
     return { success: true, userId };
   },
 );
+
+export const aiCareerQnA = createAgent({
+  name: 'Career QnA',
+  description: 'Provides expert support for career-related questions',
+  system:
+    "You are a helpful, professional AI Career Coach Agent." +
+    "Your role is to guide users with questions related to careers, including job search advice, interview preparation, resume improvement, skill development, career transitions, and industry trends." +
+    "Always respond with clarity, encouragement, and actionable advice tailored to the user's needs." +
+    "If the user asks something unrelated to careers " +
+    "(e.g., topics like health, relationships, coding help, or general trivia), gently inform them that you are a career coach and suggest relevant career-focused questions instead.",
+  model: openai({
+    model: 'gemini-2.5-flash',
+    apiKey: process.env.GEMINI_API_KEY,
+  }),
+});
+
+export const aiCareerAgent = inngest.createFunction(
+  {
+    id: 'aiCareerAgent',
+    triggers: [{ event: 'aiCareerAgent' }]
+  },
+  async ({ event }) => {
+    const { userInput } = event?.data;
+    const result = await aiCareerQnA.run(userInput);
+
+    return result;
+  }
+)
+
+
