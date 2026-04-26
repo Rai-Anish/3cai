@@ -1,4 +1,3 @@
-// src/app/actions/get-token-balance.ts
 "use server";
 
 import { auth } from "@/lib/auth";

@@ -1,4 +1,3 @@
-
 import { db } from "@/db";
 import { tokenBalance, tokenUsageLog } from "@/db/schemas";
 import { and, eq, gte, sql } from "drizzle-orm";
@@ -9,13 +8,16 @@ export async function grantFreeTokens(userId: string) {
   const nextReset = new Date(now);
   nextReset.setDate(nextReset.getDate() + TOKEN_CONFIG.RESET_INTERVAL_DAYS);
 
-  await db.insert(tokenBalance).values({
-    userId,
-    subscriptionBalance: TOKEN_CONFIG.FREE_INITIAL_GRANT,
-    lifetimeGranted: TOKEN_CONFIG.FREE_INITIAL_GRANT,
-    lastResetAt: now,
-    nextResetAt: nextReset,
-  }).onConflictDoNothing(); // safety: idempotent
+  await db
+    .insert(tokenBalance)
+    .values({
+      userId,
+      subscriptionBalance: TOKEN_CONFIG.FREE_INITIAL_GRANT,
+      lifetimeGranted: TOKEN_CONFIG.FREE_INITIAL_GRANT,
+      lastResetAt: now,
+      nextResetAt: nextReset,
+    })
+    .onConflictDoNothing();
 }
 
 export async function getTokenBalance(userId: string) {
@@ -32,37 +34,85 @@ type ConsumeResult =
   | { success: true; remaining: number }
   | { success: false; reason: "insufficient_tokens" | "no_balance_record" };
 
-// lib/tokens/service.ts
-export async function consumeTokens(userId: string, feature: FeatureKey): Promise<ConsumeResult> {
-  const cost = TOKEN_CONFIG.COSTS[feature];
+export async function consumeTokens(
+  userId: string,
+  feature: FeatureKey,
+  requestIdInput: unknown,
+): Promise<ConsumeResult> {
+  const requestId =
+    typeof requestIdInput === "string" ? requestIdInput.trim() : "";
 
-  // Atomic Update: Only update if balance >= cost
-  const result = await db
-    .update(tokenBalance)
-    .set({ 
-        subscriptionBalance: sql`${tokenBalance.subscriptionBalance} - ${cost}`, 
-        updatedAt: new Date() 
-    })
-    .where(
-        and(
-            eq(tokenBalance.userId, userId),
-            gte(tokenBalance.subscriptionBalance, cost) // SQL-level check prevents race conditions
-        )
-    )
-    .returning();
-
-  if (result.length === 0) {
-    return { success: false, reason: "insufficient_tokens" };
+  if (!requestId) {
+    console.error("consumeTokens invalid requestId:", requestIdInput);
+    throw new Error("consumeTokens requires a non-empty requestId");
   }
 
-  // Log usage after successful deduction
-  await db.insert(tokenUsageLog).values({
-    userId,
-    tokensUsed: cost,
-    feature,
-  });
+  const cost = TOKEN_CONFIG.COSTS[feature];
 
-  return { success: true, remaining: result[0].subscriptionBalance };
+  return db.transaction(async (tx) => {
+    const existingLog = await tx
+      .select()
+      .from(tokenUsageLog)
+      .where(eq(tokenUsageLog.requestId, requestId))
+      .limit(1);
+
+    if (existingLog[0]) {
+      const balance = await tx
+        .select()
+        .from(tokenBalance)
+        .where(eq(tokenBalance.userId, userId))
+        .limit(1);
+
+      if (!balance[0]) {
+        return { success: false, reason: "no_balance_record" } as const;
+      }
+
+      return {
+        success: true,
+        remaining: balance[0].subscriptionBalance,
+      } as const;
+    }
+
+    const updated = await tx
+      .update(tokenBalance)
+      .set({
+        subscriptionBalance: sql`${tokenBalance.subscriptionBalance} - ${cost}`,
+        updatedAt: new Date(),
+      })
+      .where(
+        and(
+          eq(tokenBalance.userId, userId),
+          gte(tokenBalance.subscriptionBalance, cost),
+        ),
+      )
+      .returning();
+
+    if (updated.length === 0) {
+      const balance = await tx
+        .select()
+        .from(tokenBalance)
+        .where(eq(tokenBalance.userId, userId))
+        .limit(1);
+
+      if (!balance[0]) {
+        return { success: false, reason: "no_balance_record" } as const;
+      }
+
+      return { success: false, reason: "insufficient_tokens" } as const;
+    }
+
+    await tx.insert(tokenUsageLog).values({
+      userId,
+      requestId,
+      tokensUsed: cost,
+      feature,
+    });
+
+    return {
+      success: true,
+      remaining: updated[0].subscriptionBalance,
+    } as const;
+  });
 }
 
 export async function resetFreeUserTokens(userId: string) {

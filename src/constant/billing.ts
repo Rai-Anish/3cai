@@ -13,7 +13,7 @@ export const billingPlan: BillingPlan[] = [
     name: "free",
     priceId: "price_1TOJQ4RaUpUkrJxzbUspAfS9", 
     price: "$0",
-    limits: { tokens: 100 },
+    limits: { tokens: 5 },
     features: [
       "Basic CV parsing",
       "5 Mock interview sessions",
@@ -36,7 +36,7 @@ export const billingPlan: BillingPlan[] = [
     name: "premium",
     priceId: "price_1TOJUFRaUpUkrJxzcgGsuzIu", 
     price: "$15.99",
-    limits: { tokens: 10000 },
+    limits: { tokens: 3000 },
     features: [
       "Everything in Pro",
       "Human-expert review",

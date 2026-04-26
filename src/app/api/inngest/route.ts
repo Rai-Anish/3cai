@@ -1,7 +1,7 @@
 import { serve } from "inngest/next";
 import { inngest } from "@/inngest/client";
 import {
-  consumeTokensFunction,
+  toolActionRequestedFunction,
   grantFreeTokensFunction,
   resetFreeUserTokensFunction,
 } from "@/inngest/functions/token-functions";
@@ -9,10 +9,10 @@ import {
 export const { GET, POST, PUT } = serve({
   client: inngest,
   functions: [
-    consumeTokensFunction,
+    toolActionRequestedFunction,
     grantFreeTokensFunction,
     resetFreeUserTokensFunction,
-
   ],
 });
+
 

@@ -29,6 +29,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
+import Link from "next/link";
 
 const items = [
   { title: "Workspace", url: "/workspace", icon: MdDashboard },
@@ -40,7 +41,7 @@ const items = [
       { title: "Chat", url: "/ai-tools/chat" },
       { title: "CV Analyzer", url: "/ai-tools/cv-analyzer" },
       { title: "Career Roadmap", url: "/ai-tools/career-roadmap" },
-      { title: "CV Generator", url: "/ai-tools/cv-generator" },
+      { title: "CV Generator", url: "/ai-tools/cover-letter-generator" },
     ],
   },
   { title: "My History", url: "/history", icon: RiFileHistoryLine },
@@ -59,12 +60,6 @@ export function AppSidebar() {
     aiToolsItem?.subItems?.some((subItem) => pathname === subItem.url);
 
   const [aiToolsOpen, setAiToolsOpen] = React.useState(Boolean(aiToolsActive));
-
-  React.useEffect(() => {
-    if (aiToolsActive) {
-      setAiToolsOpen(true);
-    }
-  }, [aiToolsActive]);
 
   const handleSignOut = async () =>
     await authClient.signOut({
@@ -152,7 +147,6 @@ export function AppSidebar() {
                               return (
                                 <SidebarMenuSubItem key={subItem.title}>
                                   <SidebarMenuSubButton
-                                    href={subItem.url}
                                     isActive={isSubActive}
                                     className={`transition-colors duration-200 ${
                                       isSubActive
@@ -160,7 +154,9 @@ export function AppSidebar() {
                                         : "text-muted-foreground hover:text-foreground"
                                     }`}
                                   >
-                                    {subItem.title}
+                                    <Link href={subItem.url}>
+                                      {subItem.title}
+                                    </Link>
                                   </SidebarMenuSubButton>
                                 </SidebarMenuSubItem>
                               );
@@ -177,20 +173,23 @@ export function AppSidebar() {
                     <SidebarMenuButton
                       tooltip={item.title}
                       isActive={isActive}
-                      onClick={() => router.push(item.url)}
-                      className={`flex items-center gap-3 px-4 py-6 transition-all duration-200 ${
+                      className={` px-4 py-6 transition-all duration-200 ${
                         isActive
                           ? "bg-primary/5 text-primary"
                           : "text-muted-foreground hover:text-foreground"
                       }`}
                     >
-                      <item.icon
-                        className={`h-4 w-4 ${isActive ? "animate-pulse" : ""}`}
-                      />
-                      <span className="font-mono text-xs uppercase tracking-widest">
-                        {item.title}
-                      </span>
-                      {isActive && <MdChevronRight className="ml-auto h-3 w-3" />}
+                      <Link href={item.url} className="flex items-center gap-3">
+                        <item.icon
+                          className={`h-4 w-4 ${isActive ? "animate-pulse" : ""}`}
+                        />
+                        <span className="font-mono text-xs uppercase tracking-widest">
+                          {item.title}
+                        </span>
+                        {isActive && (
+                          <MdChevronRight className="ml-auto h-3 w-3" />
+                        )}
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 );
@@ -206,4 +205,3 @@ export function AppSidebar() {
     </Sidebar>
   );
 }
-

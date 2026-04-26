@@ -1,7 +1,5 @@
 "use client";
 
-import { Zap, ZapOff } from "lucide-react"; // Added ZapOff for visual variety
-
 export function CreditUsage({ 
   balance, 
   limit, 
@@ -22,7 +20,7 @@ export function CreditUsage({
           <circle cx="50" cy="50" r="45" fill="none" stroke="#27272a" strokeWidth="8" />
           <circle
             cx="50" cy="50" r="45" fill="none" 
-            stroke={isCancelled ? "#f43f5e" : "#bef264"} // Red stroke if cancelled
+            stroke={isCancelled ? "#f43f5e" : "#bef264"} 
             strokeWidth="8"
             strokeDasharray="282.7"
             strokeDashoffset={strokeDashoffset}
@@ -32,7 +30,7 @@ export function CreditUsage({
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center rotate-0">
           <span className="text-3xl font-bold text-white leading-none">{percentage}%</span>
-          <span className="text-[10px] text-zinc-500 uppercase tracking-tighter mt-1">Utilized</span>
+          <span className="text-[10px] text-zinc-500 uppercase tracking-tighter mt-1">Remaining</span>
         </div>
       </div>
       <div className="text-center mt-4">

@@ -15,7 +15,7 @@ export async function withTokenGate<T = unknown>(
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) return { success: false, reason: "unauthenticated" };
 
-  const result = await consumeTokens(session.user.id, feature);
+  const result = await consumeTokens(session.user.id, feature, crypto.randomUUID());
   if (!result.success) {
     return { success: false, reason: result.reason };
   }

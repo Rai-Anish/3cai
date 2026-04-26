@@ -6,6 +6,7 @@ import {
   boolean,
   integer,
   index,
+  uniqueIndex,
 } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
@@ -152,11 +153,15 @@ export const tokenUsageLog = pgTable(
     userId: text("user_id")
       .notNull()
       .references(() => user.id, { onDelete: "cascade" }),
+    requestId: text("request_id").notNull(),
     tokensUsed: integer("tokens_used").notNull(),
-    feature: text("feature").notNull(), // e.g. "ai_generation", "export"
+    feature: text("feature").notNull(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
   },
-  (table) => [index("token_usage_log_userId_idx").on(table.userId)]
+  (table) => [
+    index("token_usage_log_userId_idx").on(table.userId),
+    uniqueIndex("token_usage_log_requestId_idx").on(table.requestId),
+  ],
 );
 
 // Relations

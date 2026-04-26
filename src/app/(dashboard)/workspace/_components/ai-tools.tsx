@@ -25,6 +25,8 @@ const cardList = [
     buttontxt: "Chat with AI",
     color: "text-secondary",
     feature: "ai_generation" as FeatureKey,
+    href: "/ai-tools/chat",
+    consumeOnClick: false,
   },
   {
     icon: AiOutlineFileSearch,
@@ -33,6 +35,8 @@ const cardList = [
     buttontxt: "Analyze Resume",
     color: "text-primary",
     feature: "ai_generation" as FeatureKey,
+    href: "/ai-tools/resume-analyzer",
+    consumeOnClick: true,
   },
   {
     icon: FaRegMap,
@@ -41,6 +45,8 @@ const cardList = [
     buttontxt: "Build Roadmap",
     color: "text-accent",
     feature: "analysis" as FeatureKey,
+    href: "/ai-tools/roadmap",
+    consumeOnClick: true,
   },
   {
     icon: IoDocumentTextSharp,
@@ -49,6 +55,8 @@ const cardList = [
     buttontxt: "Generate Cover Letter",
     color: "text-secondary",
     feature: "export" as FeatureKey,
+    href: "/ai-tools/cover-letter",
+    consumeOnClick: true,
   },
 ] as const;
 
@@ -57,8 +65,19 @@ export const AiTools = () => {
   const router = useRouter();
   const { mutate } = useSWRConfig();
 
-  async function handleToolClick(feature: FeatureKey, title: string) {
+  async function handleToolClick(
+    feature: FeatureKey,
+    title: string,
+    href: string,
+    consumeOnClick: boolean,
+  ) {
     if (loadingTool) return;
+
+    if (!consumeOnClick) {
+      router.push(href);
+      return;
+    }
+
     setLoadingTool(title);
 
     try {
@@ -105,7 +124,7 @@ export const AiTools = () => {
           ...(current ?? {}),
           balance: result.remaining,
         }),
-        false
+        false,
       );
 
       mutate(TOKEN_BALANCE_KEY);
@@ -113,6 +132,8 @@ export const AiTools = () => {
       toast.success(`${title} started`, {
         description: `${result.remaining} tokens remaining.`,
       });
+
+      router.push(href);
     } catch {
       toast.error("Request failed", {
         description: "Please check your connection and try again.",
@@ -141,7 +162,7 @@ export const AiTools = () => {
             <div
               className={cn(
                 "relative z-10 rounded-xl border border-border/50 bg-background/50 p-3",
-                card.color
+                card.color,
               )}
             >
               <card.icon className="h-7 w-7" />
@@ -160,11 +181,18 @@ export const AiTools = () => {
               variant="tactical"
               size="tactical"
               disabled={!!loadingTool}
-              onClick={() => handleToolClick(card.feature, card.title)}
+              onClick={() =>
+                handleToolClick(
+                  card.feature,
+                  card.title,
+                  card.href,
+                  card.consumeOnClick,
+                )
+              }
               className={cn(
                 "relative z-10 w-full font-mono text-[10px] font-bold tracking-[0.2em] uppercase italic",
                 card.color,
-                loadingTool === card.title && "cursor-not-allowed opacity-50"
+                loadingTool === card.title && "cursor-not-allowed opacity-50",
               )}
             >
               {loadingTool === card.title ? (

@@ -1,55 +1,44 @@
 import { inngest } from "../client";
 import { GetFunctionInput } from "inngest";
 import type {
-  TokenConsumeEvent,
   TokenGrantEvent,
   TokenResetEvent,
 } from "../types";
 import {
-  consumeTokens,
   grantFreeTokens,
   resetFreeUserTokens,
-  getTokenBalance,
 } from "@/services/tokens/token-service";
 
 type Ctx = GetFunctionInput<typeof inngest>;
 
-export const consumeTokensFunction = inngest.createFunction(
+export const toolActionRequestedFunction = inngest.createFunction(
   {
-    id: "consume-tokens",
-    name: "Consume Tokens",
+    id: "tool-action-requested",
+    name: "Tool Action Requested",
     retries: 3,
-    triggers: [{ event: "token/consume" }],
+    triggers: [{ event: "tool/action-requested" }],
   },
-  async ({ event, step }: Ctx) => {
-    const { userId, feature, toolName } =
-      event.data as TokenConsumeEvent["data"];
+  async ({ event, step }) => {
+    const { userId, feature, toolName, requestId } = event.data as {
+      userId: string;
+      feature: string;
+      toolName: string;
+      requestId: string;
+    };
 
-    const balance = await step.run("check-balance", () =>
-      getTokenBalance(userId),
-    );
-    if (!balance) return { success: false, reason: "no_balance_record" };
-
-    const result = await step.run("consume-tokens", () =>
-      consumeTokens(userId, feature),
-    );
-    if (!result.success) {
-      return {
-        success: false,
-        reason: result.reason,
-        currentBalance: balance.subscriptionBalance,
-      };
-    }
-
-    await step.run("log-success", () => {
-      console.log(`[token] consumed for ${toolName}`, {
+    await step.run("log-tool-action", async () => {
+      console.log("[tool action]", {
+        requestId,
         userId,
         feature,
-        remaining: result.remaining,
+        toolName,
       });
     });
 
-    return { success: true, remaining: result.remaining, toolName };
+    return {
+      success: true,
+      requestId,
+    };
   },
 );
 
@@ -80,6 +69,7 @@ export const resetFreeUserTokensFunction = inngest.createFunction(
     return { success: true, userId };
   },
 );
+
 
 
 

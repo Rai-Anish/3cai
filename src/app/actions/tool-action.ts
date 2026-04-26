@@ -19,21 +19,25 @@ export async function triggerToolAction(
   toolName: string,
 ): Promise<ToolActionResult> {
   const session = await auth.api.getSession({ headers: await headers() });
-  if (!session)
+
+  if (!session) {
     return {
       success: false,
       reason: "unauthenticated",
       remaining: 0,
       isPaidUser: false,
     };
+  }
 
   const userId = session.user.id;
   const { isSubscribed } = await getUserSubscriptionStatus();
+  const requestId = crypto.randomUUID();
 
-  const result = await consumeTokens(userId, feature);
+  const result = await consumeTokens(userId, feature, requestId);
 
   if (!result.success) {
     const balance = await getTokenBalance(userId);
+
     return {
       success: false,
       reason: result.reason,
@@ -43,8 +47,9 @@ export async function triggerToolAction(
   }
 
   const { ids } = await inngest.send({
-    name: "token/consume",
+    name: "tool/action-requested",
     data: {
+      requestId,
       userId,
       feature,
       toolName,
@@ -58,3 +63,4 @@ export async function triggerToolAction(
     jobId: ids[0],
   };
 }
+

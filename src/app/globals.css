@@ -4,34 +4,30 @@
 
 :root {
   /* --- DIGITAL ARCHITECT (LIGHT MODE) --- */
-  /* Clean, architectural white base */
-  --background: oklch(0.96 0.01 255);       /* #f6f6fb */
-  --foreground: oklch(0.25 0.02 255);       /* #2d2f33 - Soft Professional Gray */
+  --background: oklch(0.96 0.01 255);
+  --foreground: oklch(0.25 0.02 255);
   
-  /* Tonal Layering for Light Mode */
-  --card: oklch(0.92 0.01 255);             /* #f0f0f6 */
+  --card: oklch(0.92 0.01 255);
   --card-foreground: oklch(0.25 0.02 255);
-  --popover: oklch(1 0 0);                  /* Pure White */
+  --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.25 0.02 255);
 
-  /* Electric Accents for Light Mode */
-  --primary: oklch(0.85 0.20 115);          /* #bbfd00 - Neon Lime */
+  --primary: oklch(0.85 0.20 115);
   --primary-foreground: oklch(0.25 0.02 255);
   
-  --secondary: oklch(0.65 0.15 285);        /* Soft Purple */
+  --secondary: oklch(0.65 0.15 285);
   --secondary-foreground: oklch(1 0 0);
 
-  --accent: oklch(0.70 0.20 340);           /* Muted Action Pink */
+  --accent: oklch(0.70 0.20 340);
   --accent-foreground: oklch(1 0 0);
 
   --muted: oklch(0.88 0.01 255);
   --muted-foreground: oklch(0.45 0.02 255);
   
-  --border: oklch(0 0 0 / 0.1);             /* Very subtle divider */
+  --border: oklch(0 0 0 / 0.1);
   --input: oklch(0.90 0.01 255);
   --ring: oklch(0.85 0.20 115);
 
-  /* Infrastructure */
   --font-sans: var(--font-manrope), system-ui, sans-serif;
   --font-mono: var(--font-space-grotesk), monospace;
   --radius: 0.75rem;
@@ -39,29 +35,28 @@
 
 .dark {
   /* --- NEON LAB (DARK MODE) --- */
-  /* Deep Obsidian Vacuum */
-  --background: oklch(0.12 0.01 255);       /* #0e0e11 */
-  --foreground: oklch(0.75 0.01 255);       /* #acaaae */
+  --background: oklch(0.12 0.01 255);
+  --foreground: oklch(0.75 0.01 255);
   
-  --card: oklch(0.16 0.01 255);             /* #19191d */
+  --card: oklch(0.16 0.01 255);
   --card-foreground: oklch(0.98 0.01 255);
   
-  --popover: oklch(0.18 0.02 255);          /* #1f1f23 */
+  --popover: oklch(0.18 0.02 255);
   --popover-foreground: oklch(0.98 0.01 255);
 
-  --primary: oklch(0.92 0.15 110);          /* #e9ffb9 - Radioactive Green */
+  --primary: oklch(0.92 0.15 110);
   --primary-foreground: oklch(0.12 0.01 255);
   
-  --secondary: oklch(0.70 0.18 285);        /* #ac89ff - Neon Purple */
+  --secondary: oklch(0.70 0.18 285);
   --secondary-foreground: oklch(0.98 0.01 255);
 
-  --accent: oklch(0.75 0.25 340);           /* #ff6b98 - Action Pink */
+  --accent: oklch(0.75 0.25 340);
   --accent-foreground: oklch(0.98 0.01 255);
 
   --muted: oklch(0.25 0.02 255);
   --muted-foreground: oklch(0.65 0.01 255);
   
-  --border: oklch(1 0 0 / 0.15);            /* Ghost border */
+  --border: oklch(1 0 0 / 0.15);
   --ring: oklch(0.92 0.15 110);
 }
 
@@ -102,5 +97,114 @@
   }
   h1, h2, h3 {
     @apply font-mono font-bold tracking-tight;
+  }
+
+  @keyframes cs-fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes cs-blink {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0; }
+  }
+  @keyframes cs-pulse-ring {
+    0%   { box-shadow: 0 0 0 0    rgba(233, 255, 185, 0.35); }
+    70%  { box-shadow: 0 0 0 10px rgba(233, 255, 185, 0); }
+    100% { box-shadow: 0 0 0 0    rgba(233, 255, 185, 0); }
+  }
+  @keyframes cs-scanline {
+    from { transform: translateY(-100%); }
+    to   { transform: translateY(100%); }
+  }
+  @keyframes cs-glitchA {
+    0%,  100% { clip-path: inset(0 0 95% 0);  transform: translate(-2px, 0); }
+    25%       { clip-path: inset(40% 0 40% 0); transform: translate(2px,  0); }
+    50%       { clip-path: inset(80% 0 5% 0);  transform: translate(-1px, 0); }
+    75%       { clip-path: inset(15% 0 70% 0); transform: translate(1px,  0); }
+  }
+  @keyframes cs-glitchB {
+    0%,  100% { clip-path: inset(90% 0 2% 0);  transform: translate(2px,  0); }
+    25%       { clip-path: inset(20% 0 65% 0);  transform: translate(-2px, 0); }
+    50%       { clip-path: inset(55% 0 25% 0);  transform: translate(1px,  0); }
+    75%       { clip-path: inset(5% 0 85% 0);   transform: translate(-1px, 0); }
+  }
+}
+
+/* ── Chat scrollbar ─────────────────────────────────────────── */
+
+.chat-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
+}
+.chat-scroll::-webkit-scrollbar { width: 4px; }
+.chat-scroll::-webkit-scrollbar-track { background: transparent; }
+.chat-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+  transition: background 0.2s ease;
+}
+.chat-scroll::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.25); }
+
+.light .chat-scroll,
+[data-theme="light"] .chat-scroll {
+  scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+}
+.light .chat-scroll::-webkit-scrollbar-thumb,
+[data-theme="light"] .chat-scroll::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+}
+.light .chat-scroll::-webkit-scrollbar-thumb:hover,
+[data-theme="light"] .chat-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* ── Coming Soon animations — @utility must be top-level ────── */
+
+@utility animate-cs-fadeup-1 {
+  animation: cs-fadeUp 0.5s ease both 0.1s;
+}
+@utility animate-cs-fadeup-2 {
+  animation: cs-fadeUp 0.5s ease both 0.25s;
+}
+@utility animate-cs-fadeup-3 {
+  animation: cs-fadeUp 0.5s ease both 0.4s;
+}
+@utility animate-cs-fadeup-4 {
+  animation: cs-fadeUp 0.5s ease both 0.55s;
+}
+@utility animate-cs-blink {
+  animation: cs-blink 1s step-end infinite;
+}
+@utility animate-cs-pulse-ring {
+  animation: cs-pulse-ring 2s ease-in-out infinite;
+}
+@utility cs-scanline {
+  &::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    height: 2px;
+    background: linear-gradient(transparent, rgba(233, 255, 185, 0.04), transparent);
+    animation: cs-scanline 5s linear infinite;
+  }
+}
+@utility cs-glitch {
+  position: relative;
+  display: inline-block;
+
+  &::before,
+  &::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    font: inherit;
+  }
+  &::before {
+    color: #ff6b98;
+    animation: cs-glitchA 4s infinite linear;
+  }
+  &::after {
+    color: #ac89ff;
+    animation: cs-glitchB 4s infinite linear;
   }
 }

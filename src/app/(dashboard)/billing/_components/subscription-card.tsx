@@ -26,7 +26,7 @@ export function SubscriptionCard({
   const [isCancelling, setIsCancelling] = useState(false);
   const [isRestoring, setIsRestoring] = useState(false);
 
-  const isScheduledToCancel = !!subscription.cancelAt;
+  const isScheduledToCancel = !!subscription?.cancelAt;
   const stripeSubscriptionId = subscription?.stripeSubscriptionId;
   const referenceId = subscription?.referenceId;
 
