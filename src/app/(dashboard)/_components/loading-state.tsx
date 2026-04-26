@@ -12,8 +12,6 @@ export function DashboardLoading() {
           {/* Status Pulse Placeholder */}
           <Skeleton className="h-3 w-32 bg-primary/5" />
         </div>
-        {/* Logout Button Placeholder */}
-        <Skeleton className="h-10 w-28 bg-destructive/10" />
       </header>
 
       <main className="grid gap-6 md:grid-cols-2 max-w-4xl">

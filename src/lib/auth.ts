@@ -14,13 +14,24 @@ import { sendEmail } from "./email";
 import {
   getVerificationTemplate,
   getExistingAccountTemplate,
+  getPasswordResetTemplate,
 } from "./email-template";
-import { clearUserSubscriptionTokens, getPlanTokenLimit, grantInvoicePaidTokens, queueCancellationEmail, resolvePlan, sendPlanUpdatedEmail, sendWelcomePlanEmail, shouldRefreshTokensFromSubscriptionUpdate, updateUserSubscriptionTokens } from "@/services/auth-helper/get-user-prev-plan";
+import {
+  clearUserSubscriptionTokens,
+  getPlanTokenLimit,
+  grantInvoicePaidTokens,
+  queueCancellationEmail,
+  resolvePlan,
+  sendPlanUpdatedEmail,
+  sendWelcomePlanEmail,
+  shouldRefreshTokensFromSubscriptionUpdate,
+  updateUserSubscriptionTokens,
+} from "@/services/auth-helper/get-user-prev-plan";
+import { after } from "next/server";
 
 export const stripeClient = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2026-03-25.dahlia",
+  apiVersion: "2026-04-22.dahlia",
 });
-
 
 export const auth = betterAuth({
   baseURL: process.env.BETTER_AUTH_URL,
@@ -33,6 +44,19 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,
+    sendResetPassword: async ({ user, url }, _request) => {
+      after(async () => {
+        await sendEmail({
+          to: user.email,
+          subject: "Reset your password — 3CAI",
+          html: getPasswordResetTemplate(url),
+        });
+      });
+    },
+    onPasswordReset: async ({ user }, _request) => {
+      console.log(`[auth] Password reset completed for ${user.email}`);
+      // Optional: send a "your password was changed" confirmation email here
+    },
 
     onExistingUserSignUp: async ({ user }) => {
       await sendEmail({
@@ -53,10 +77,12 @@ export const auth = betterAuth({
         .delete(schema.verification)
         .where(eq(schema.verification.identifier, user.email));
 
-      await sendEmail({
-        to: user.email,
-        subject: "Verify your account — 3CAI",
-        html: getVerificationTemplate(url),
+      after(async () => {
+        await sendEmail({
+          to: user.email,
+          subject: "Verify your account — 3CAI",
+          html: getVerificationTemplate(url),
+        });
       });
     },
   },
@@ -104,7 +130,7 @@ export const auth = betterAuth({
           await updateUserSubscriptionTokens(
             subscription.referenceId,
             tokenLimit,
-            subscription.periodEnd ?? null
+            subscription.periodEnd ?? null,
           );
 
           const resolvedPlan = resolvePlan(subscription.plan, plan);
@@ -119,7 +145,7 @@ export const auth = betterAuth({
           await updateUserSubscriptionTokens(
             subscription.referenceId,
             tokenLimit,
-            subscription.periodEnd ?? null
+            subscription.periodEnd ?? null,
           );
         },
 
@@ -137,7 +163,7 @@ export const auth = betterAuth({
           }
 
           const previousAttributes = (event?.data.previous_attributes ??
-            {}) as Record<string, any>;
+            {}) as Record<string, unknown>;
 
           const shouldRefreshTokens =
             shouldRefreshTokensFromSubscriptionUpdate(previousAttributes) &&
@@ -146,17 +172,42 @@ export const auth = betterAuth({
 
           if (shouldRefreshTokens) {
             const tokenLimit = getPlanTokenLimit(subscription.plan);
-
             await updateUserSubscriptionTokens(
               subscription.referenceId,
               tokenLimit,
-              subscription.periodEnd ?? null
+              subscription.periodEnd ?? null,
             );
           }
 
+          // Safe nested extraction
+          const planObj =
+            typeof previousAttributes.plan === "object" &&
+            previousAttributes.plan !== null
+              ? (previousAttributes.plan as Record<string, unknown>)
+              : null;
+
+          const itemsArr =
+            typeof previousAttributes.items === "object" &&
+            previousAttributes.items !== null
+              ? ((previousAttributes.items as Record<string, unknown>)
+                  .data as unknown[])
+              : null;
+
+          const firstItem =
+            Array.isArray(itemsArr) && itemsArr.length > 0
+              ? (itemsArr[0] as Record<string, unknown>)
+              : null;
+
+          const firstItemPrice =
+            firstItem?.price !== null && typeof firstItem?.price === "object"
+              ? (firstItem.price as Record<string, unknown>)
+              : null;
+
           const prevPriceId =
-            previousAttributes?.plan?.id ??
-            previousAttributes?.items?.data?.[0]?.price?.id;
+            (typeof planObj?.id === "string" ? planObj.id : undefined) ??
+            (typeof firstItemPrice?.id === "string"
+              ? firstItemPrice.id
+              : undefined);
 
           if (!prevPriceId) return;
 
@@ -167,7 +218,7 @@ export const auth = betterAuth({
             subscription.referenceId,
             prevPlan?.name ?? "Previous Plan",
             subscription.plan,
-            newPlan?.limits.tokens ?? 0
+            newPlan?.limits.tokens ?? 0,
           );
         },
 
@@ -190,7 +241,7 @@ export const auth = betterAuth({
           await queueCancellationEmail(
             subscription.referenceId,
             subscription.plan,
-            subscription.periodEnd ?? null
+            subscription.periodEnd ?? null,
           );
         },
 
@@ -198,7 +249,7 @@ export const auth = betterAuth({
           await clearUserSubscriptionTokens(subscription.referenceId);
 
           console.log(
-            `Subscription fully deleted for user: ${subscription.referenceId}`
+            `Subscription fully deleted for user: ${subscription.referenceId}`,
           );
         },
       },

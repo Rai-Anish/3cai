@@ -1,6 +1,39 @@
 const BASE_URL = process.env.BETTER_AUTH_URL ?? "https://3cai.app";
 
-const shell = (content: string) => `<!DOCTYPE html>
+const COLORS = {
+  bg: "#f3f4f8",
+  card: "#ffffff",
+  cardBorder: "#e2e4ec",
+  cardBorderTop: "#c8e645",
+  primary: "#c8e645",
+  primaryDark: "#9bb830",
+  primaryText: "#1e2035",
+  heading: "#1e2035",
+  body: "#4a4f6a",
+  muted: "#7a7f9a",
+  subtle: "#9ca3b8",
+  footerText: "#aab0c8",
+  white: "#ffffff",
+  divider: "#eceef5",
+  badgeBg: "#f0f7d4",
+  badgeText: "#5a7a10",
+  alertBg: "#fff8f0",
+  alertBorder: "#f59e0b",
+  alertBadge: "#f59e0b",
+  alertBadgeText: "#7c4a00",
+  dangerBg: "#fff5f5",
+  dangerBorder: "#ef4444",
+  dangerBadge: "#ef4444",
+  dangerBadgeText: "#7c0000",
+  infoBg: "#f0f7ff",
+  infoBorder: "#3b82f6",
+  infoBadge: "#3b82f6",
+  infoBadgeText: "#1e3a6e",
+};
+
+// ─── Shell ────────────────────────────────────────────────────────────────────
+
+const shell = (content: string, accentColor = COLORS.cardBorderTop) => `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -8,23 +41,23 @@ const shell = (content: string) => `<!DOCTYPE html>
   <title>3CAI</title>
   <!--[if mso]><noscript><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript><![endif]-->
 </head>
-<body style="margin:0;padding:0;background-color:#080808;font-family:'Courier New',Courier,monospace;">
-  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#080808;">
+<body style="margin:0;padding:0;background-color:${COLORS.bg};font-family:Georgia,'Times New Roman',serif;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:${COLORS.bg};">
     <tr>
-      <td align="center" style="padding:40px 16px;">
-        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width:580px;">
+      <td align="center" style="padding:48px 20px;">
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="max-width:560px;">
 
           <!-- HEADER -->
           <tr>
-            <td style="padding-bottom:32px;">
+            <td style="padding-bottom:28px;">
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
                 <tr>
                   <td>
-                    <span style="color:#00ff41;font-size:20px;font-weight:700;letter-spacing:4px;">3CAI</span>
-                    <span style="color:#333;font-size:12px;margin-left:12px;letter-spacing:2px;">SYSTEM MAIL</span>
+                    <span style="font-family:'Courier New',Courier,monospace;color:${COLORS.heading};font-size:18px;font-weight:700;letter-spacing:2px;">3CAI</span>
+                    <span style="font-family:'Courier New',Courier,monospace;color:${COLORS.subtle};font-size:11px;margin-left:10px;letter-spacing:1px;">Career Intelligence</span>
                   </td>
                   <td align="right">
-                    <span style="color:#222;font-size:11px;letter-spacing:1px;">${new Date().toISOString().split("T")[0]}</span>
+                    <span style="font-family:'Courier New',Courier,monospace;color:${COLORS.subtle};font-size:11px;">${new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</span>
                   </td>
                 </tr>
               </table>
@@ -33,24 +66,26 @@ const shell = (content: string) => `<!DOCTYPE html>
 
           <!-- CARD -->
           <tr>
-            <td style="background-color:#0d0d0d;border:1px solid #1a1a1a;border-top:2px solid #00ff41;padding:36px 32px;">
+            <td style="background-color:${COLORS.card};border:1px solid ${COLORS.cardBorder};border-top:3px solid ${accentColor};border-radius:8px;padding:40px 36px;">
               ${content}
             </td>
           </tr>
 
           <!-- FOOTER -->
           <tr>
-            <td style="padding-top:24px;">
+            <td style="padding-top:28px;">
               <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
                 <tr>
-                  <td style="border-top:1px solid #1a1a1a;padding-top:20px;">
-                    <p style="margin:0;color:#2a2a2a;font-size:11px;letter-spacing:1px;">3CAI · AI-Powered Career Intelligence</p>
-                    <p style="margin:6px 0 0;color:#1e1e1e;font-size:10px;">
-                      <a href="${BASE_URL}/settings" style="color:#2a2a2a;text-decoration:none;">Manage preferences</a>
-                      &nbsp;·&nbsp;
-                      <a href="${BASE_URL}/settings/billing" style="color:#2a2a2a;text-decoration:none;">Billing</a>
-                      &nbsp;·&nbsp;
-                      <a href="${BASE_URL}" style="color:#2a2a2a;text-decoration:none;">Dashboard</a>
+                  <td align="center">
+                    <p style="margin:0 0 8px;font-family:Georgia,'Times New Roman',serif;color:${COLORS.footerText};font-size:12px;line-height:1.6;">
+                      © ${new Date().getFullYear()} 3CAI · AI-Powered Career Intelligence
+                    </p>
+                    <p style="margin:0;font-size:12px;line-height:1.8;">
+                      <a href="${BASE_URL}/settings" style="color:${COLORS.footerText};text-decoration:none;">Preferences</a>
+                      <span style="color:${COLORS.footerText};margin:0 8px;">·</span>
+                      <a href="${BASE_URL}/settings/billing" style="color:${COLORS.footerText};text-decoration:none;">Billing</a>
+                      <span style="color:${COLORS.footerText};margin:0 8px;">·</span>
+                      <a href="${BASE_URL}" style="color:${COLORS.footerText};text-decoration:none;">Dashboard</a>
                     </p>
                   </td>
                 </tr>
@@ -65,30 +100,17 @@ const shell = (content: string) => `<!DOCTYPE html>
 </body>
 </html>`;
 
-// ─── Shared primitives ───────────────────────────────────────────────────────
+// ─── Shared primitives ────────────────────────────────────────────────────────
 
-const terminalBlock = (lines: string[]) => `
-  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0"
-    style="background-color:#050505;border-left:3px solid #00ff41;margin:24px 0;">
-    <tr>
-      <td style="padding:16px 20px;">
-        ${lines
-          .map(
-            (l) =>
-              `<p style="margin:4px 0;color:#00ff41;font-size:13px;letter-spacing:1px;">${l}</p>`
-          )
-          .join("")}
-      </td>
-    </tr>
-  </table>`;
+const badge = (text: string, bg: string, color: string) => `
+  <span style="display:inline-block;background-color:${bg};color:${color};font-family:'Courier New',Courier,monospace;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;border-radius:4px;">${text}</span>`;
 
-const ctaButton = (label: string, href: string) => `
-  <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin-top:28px;">
+const ctaButton = (label: string, href: string, bg = COLORS.primary, color = COLORS.primaryText) => `
+  <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin-top:32px;">
     <tr>
-      <td style="background-color:#00ff41;border-radius:2px;">
+      <td style="background-color:${bg};border-radius:6px;">
         <a href="${href}"
-          style="display:inline-block;padding:14px 28px;color:#000000;font-family:'Courier New',Courier,monospace;
-                 font-size:13px;font-weight:700;letter-spacing:2px;text-decoration:none;">
+          style="display:inline-block;padding:14px 28px;color:${color};font-family:'Courier New',Courier,monospace;font-size:13px;font-weight:700;letter-spacing:1px;text-decoration:none;">
           ${label} →
         </a>
       </td>
@@ -96,187 +118,173 @@ const ctaButton = (label: string, href: string) => `
   </table>`;
 
 const divider = () =>
-  `<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:24px 0;">
-    <tr><td style="border-top:1px solid #1a1a1a;font-size:0;">&nbsp;</td></tr>
+  `<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:28px 0 0;">
+    <tr><td style="border-top:1px solid ${COLORS.divider};font-size:0;">&nbsp;</td></tr>
   </table>`;
 
-const label = (text: string) =>
-  `<p style="margin:0 0 8px;color:#333;font-size:10px;letter-spacing:3px;text-transform:uppercase;">${text}</p>`;
+const infoBox = (lines: { label: string; val: string }[], bg = COLORS.badgeBg, border = COLORS.primaryDark) => `
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0"
+    style="background-color:${bg};border-left:3px solid ${border};border-radius:0 6px 6px 0;margin:24px 0;">
+    <tr>
+      <td style="padding:16px 20px;">
+        ${lines.map(({ label: l, val: v }) => `
+          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-bottom:6px;">
+            <tr>
+              <td style="font-family:'Courier New',Courier,monospace;color:${COLORS.muted};font-size:11px;letter-spacing:1px;width:110px;vertical-align:top;">${l}</td>
+              <td style="font-family:'Courier New',Courier,monospace;color:${COLORS.heading};font-size:12px;font-weight:600;letter-spacing:0.5px;vertical-align:top;">${v}</td>
+            </tr>
+          </table>`).join("")}
+      </td>
+    </tr>
+  </table>`;
 
-const value = (text: string) =>
-  `<p style="margin:0 0 16px;color:#e0e0e0;font-size:15px;letter-spacing:1px;">${text}</p>`;
+const footnote = (html: string) =>
+  `<p style="margin:20px 0 0;font-family:Georgia,'Times New Roman',serif;color:${COLORS.muted};font-size:12px;line-height:1.8;">${html}</p>`;
 
-// ─── 1. Email Verification ───────────────────────────────────────────────────
+// ─── 1. Email Verification ────────────────────────────────────────────────────
 
 export const getVerificationTemplate = (url: string) =>
   shell(`
-    <p style="margin:0 0 4px;color:#00ff41;font-size:11px;letter-spacing:3px;">IDENTITY_VERIFICATION</p>
-    <h1 style="margin:0 0 24px;color:#ffffff;font-size:22px;font-weight:700;letter-spacing:2px;">Confirm your email</h1>
+    ${badge("Action Required", COLORS.badgeBg, COLORS.badgeText)}
 
-    <p style="margin:0 0 8px;color:#888;font-size:14px;line-height:1.7;">
-      One step left. Verify your address to activate your 3CAI account and unlock your career intelligence suite.
+    <h1 style="margin:16px 0 8px;font-family:'Courier New',Courier,monospace;color:${COLORS.heading};font-size:24px;font-weight:700;letter-spacing:-0.5px;">Verify your email address</h1>
+    <p style="margin:0 0 24px;font-family:Georgia,'Times New Roman',serif;color:${COLORS.body};font-size:15px;line-height:1.7;">
+      Thanks for signing up for 3CAI. Please confirm your email address to activate your account and access your career intelligence tools.
     </p>
 
-    ${terminalBlock([
-      `> RECIPIENT : ${url.includes("email=") ? decodeURIComponent(url.split("email=")[1]?.split("&")[0] ?? "—") : "—"}`,
-      `> ACTION    : EMAIL_VERIFY`,
-      `> EXPIRES   : 24 hours`,
-      `> STATUS    : AWAITING_CONFIRMATION`,
+    ${infoBox([
+      { label: "Recipient", val: url.includes("email=") ? decodeURIComponent(url.split("email=")[1]?.split("&")[0] ?? "—") : "—" },
+      { label: "Expires in", val: "24 hours" },
     ])}
 
-    ${ctaButton("VERIFY EMAIL ADDRESS", url)}
+    ${ctaButton("Verify Email Address", url)}
 
     ${divider()}
 
-    <p style="margin:0;color:#333;font-size:11px;line-height:1.8;">
-      Button not working? Paste this link into your browser:<br/>
-      <a href="${url}" style="color:#1a4a1a;font-size:11px;word-break:break-all;">${url}</a>
-    </p>
-    <p style="margin:12px 0 0;color:#222;font-size:11px;">
-      Didn't create an account? You can safely ignore this message.
-    </p>
+    ${footnote(`Button not working? <a href="${url}" style="color:${COLORS.primaryDark};text-decoration:none;word-break:break-all;">Copy this link</a> into your browser.<br/>If you didn't create a 3CAI account, you can safely ignore this email.`)}
   `);
 
-// ─── 2. Existing Account ─────────────────────────────────────────────────────
+// ─── 2. Existing Account ──────────────────────────────────────────────────────
 
 export const getExistingAccountTemplate = () =>
   shell(`
-    <p style="margin:0 0 4px;color:#ff6b35;font-size:11px;letter-spacing:3px;">SECURITY_ALERT</p>
-    <h1 style="margin:0 0 24px;color:#ffffff;font-size:22px;font-weight:700;letter-spacing:2px;">Sign-in attempt detected</h1>
+    ${badge("Security Notice", COLORS.alertBg, COLORS.alertBadgeText)}
 
-    <p style="margin:0 0 8px;color:#888;font-size:14px;line-height:1.7;">
-      Someone tried to register a new account using your email address. If this was you, your account already exists — just sign in.
+    <h1 style="margin:16px 0 8px;font-family:'Courier New',Courier,monospace;color:${COLORS.heading};font-size:24px;font-weight:700;letter-spacing:-0.5px;">Sign-in attempt on your account</h1>
+    <p style="margin:0 0 24px;font-family:Georgia,'Times New Roman',serif;color:${COLORS.body};font-size:15px;line-height:1.7;">
+      Someone attempted to register a new account using this email address. Since an account already exists, no changes were made. If this was you, simply sign in below.
     </p>
 
-    ${terminalBlock([
-      `> EVENT  : DUPLICATE_SIGNUP_ATTEMPT`,
-      `> RESULT : BLOCKED`,
-      `> ACTION : NO CHANGES MADE`,
-    ])}
+    ${infoBox([
+      { label: "Event", val: "Registration attempt blocked" },
+      { label: "Result", val: "No changes made to your account" },
+    ], COLORS.alertBg, COLORS.alertBorder)}
 
-    ${ctaButton("SIGN IN TO YOUR ACCOUNT", `${BASE_URL}/sign-in`)}
+    ${ctaButton("Sign In to Your Account", `${BASE_URL}/sign-in`)}
 
     ${divider()}
 
-    <p style="margin:0;color:#333;font-size:11px;line-height:1.8;">
-      Wasn't you? No action needed — your account remains unchanged.<br/>
-      If you're concerned, consider updating your password from account settings.
-    </p>
-  `);
+    ${footnote(`If this wasn't you, your account is safe — no action is needed. As a precaution, you may want to <a href="${BASE_URL}/settings/security" style="color:${COLORS.primaryDark};text-decoration:none;">review your account security settings</a>.`)}
+  `, COLORS.alertBorder);
 
-// ─── 3. Subscription Welcome (new subscriber) ────────────────────────────────
+// ─── 3. Subscription Welcome ──────────────────────────────────────────────────
 
 export const getWelcomeTemplate = (planName: string, tokensGranted?: number) =>
   shell(`
-    <p style="margin:0 0 4px;color:#00ff41;font-size:11px;letter-spacing:3px;">ACCESS_GRANTED</p>
-    <h1 style="margin:0 0 24px;color:#ffffff;font-size:22px;font-weight:700;letter-spacing:2px;">Welcome to ${planName}</h1>
+    ${badge("Subscription Active", COLORS.badgeBg, COLORS.badgeText)}
 
-    <p style="margin:0 0 8px;color:#888;font-size:14px;line-height:1.7;">
-      Your subscription is live. You now have full access to 3CAI's career intelligence tools — resume analysis, interview prep, job match scoring, and more.
+    <h1 style="margin:16px 0 8px;font-family:'Courier New',Courier,monospace;color:${COLORS.heading};font-size:24px;font-weight:700;letter-spacing:-0.5px;">Welcome to ${planName}</h1>
+    <p style="margin:0 0 24px;font-family:Georgia,'Times New Roman',serif;color:${COLORS.body};font-size:15px;line-height:1.7;">
+      Your subscription is now active. You have full access to 3CAI's career intelligence suite, including resume analysis, interview preparation, job match scoring, and your AI career roadmap.
     </p>
 
-    ${terminalBlock([
-      `> PLAN     : ${planName.toUpperCase()}`,
-      tokensGranted ? `> TOKENS   : ${tokensGranted.toLocaleString()} GRANTED` : "",
-      `> BILLING  : MONTHLY_CYCLE`,
-      `> STATUS   : ACTIVE`,
-    ].filter(Boolean))}
+    ${infoBox([
+      { label: "Plan", val: planName },
+      ...(tokensGranted ? [{ label: "Credits", val: `${tokensGranted.toLocaleString()} tokens added` }] : []),
+      { label: "Billing", val: "Monthly renewal" },
+      { label: "Status", val: "Active" },
+    ])}
 
-    ${ctaButton("OPEN DASHBOARD", `${BASE_URL}/workspace`)}
+    ${ctaButton("Go to Dashboard", `${BASE_URL}/workspace`)}
 
     ${divider()}
 
-    <p style="margin:0;color:#333;font-size:11px;line-height:1.8;">
-      Questions about your plan?
-      <a href="${BASE_URL}/settings/billing" style="color:#2a5a2a;text-decoration:none;">View billing details</a>
-      or reply to this email.
-    </p>
+    ${footnote(`Need help getting started? Visit our <a href="${BASE_URL}/docs" style="color:${COLORS.primaryDark};text-decoration:none;">documentation</a> or <a href="${BASE_URL}/support" style="color:${COLORS.primaryDark};text-decoration:none;">contact support</a>. We're here to help.`)}
   `);
 
-// ─── 4. Subscription Updated (upgrade / downgrade) ───────────────────────────
+// ─── 4. Subscription Updated ──────────────────────────────────────────────────
 
 export const getUpdateTemplate = (previousPlan: string, newPlan: string, tokensGranted?: number) =>
   shell(`
-    <p style="margin:0 0 4px;color:#00aaff;font-size:11px;letter-spacing:3px;">SUBSCRIPTION_UPDATED</p>
-    <h1 style="margin:0 0 24px;color:#ffffff;font-size:22px;font-weight:700;letter-spacing:2px;">Plan changed to ${newPlan}</h1>
+    ${badge("Plan Updated", COLORS.infoBg, COLORS.infoBadgeText)}
 
-    <p style="margin:0 0 8px;color:#888;font-size:14px;line-height:1.7;">
-      Your subscription has been updated. The new plan is effective immediately and your token balance has been refreshed.
+    <h1 style="margin:16px 0 8px;font-family:'Courier New',Courier,monospace;color:${COLORS.heading};font-size:24px;font-weight:700;letter-spacing:-0.5px;">Your plan has been updated</h1>
+    <p style="margin:0 0 24px;font-family:Georgia,'Times New Roman',serif;color:${COLORS.body};font-size:15px;line-height:1.7;">
+      Your subscription has been successfully changed. The new plan is effective immediately and your credit balance has been updated to reflect this change.
     </p>
 
-    ${terminalBlock([
-      `> PREVIOUS : ${previousPlan.toUpperCase()}`,
-      `> CURRENT  : ${newPlan.toUpperCase()}`,
-      tokensGranted ? `> TOKENS   : ${tokensGranted.toLocaleString()} GRANTED` : "",
-      `> EFFECTIVE: IMMEDIATELY`,
-    ].filter(Boolean))}
+    ${infoBox([
+      { label: "Previous plan", val: previousPlan },
+      { label: "New plan", val: newPlan },
+      ...(tokensGranted ? [{ label: "Credits", val: `${tokensGranted.toLocaleString()} tokens added` }] : []),
+      { label: "Effective", val: "Immediately" },
+    ], COLORS.infoBg, COLORS.infoBorder)}
 
-    ${ctaButton("VIEW UPDATED PLAN", `${BASE_URL}/settings/billing`)}
+    ${ctaButton("View Billing Details", `${BASE_URL}/settings/billing`)}
 
     ${divider()}
 
-    <p style="margin:0;color:#333;font-size:11px;line-height:1.8;">
-      Didn't request this change?
-      <a href="${BASE_URL}/settings/billing" style="color:#2a4a5a;text-decoration:none;">Review your billing</a>
-      or contact support immediately.
-    </p>
-  `);
+    ${footnote(`If you didn't authorize this change, please <a href="${BASE_URL}/settings/billing" style="color:${COLORS.primaryDark};text-decoration:none;">review your billing details</a> and contact our support team immediately.`)}
+  `, COLORS.infoBorder);
 
-// ─── 5. Subscription Cancelled ───────────────────────────────────────────────
+// ─── 5. Subscription Cancelled ────────────────────────────────────────────────
 
 export const getCancellationTemplate = (planName: string, accessUntil?: Date) =>
   shell(`
-    <p style="margin:0 0 4px;color:#ff4444;font-size:11px;letter-spacing:3px;">SUBSCRIPTION_CANCELLED</p>
-    <h1 style="margin:0 0 24px;color:#ffffff;font-size:22px;font-weight:700;letter-spacing:2px;">Your ${planName} plan has been cancelled</h1>
+    ${badge("Subscription Ended", COLORS.dangerBg, COLORS.dangerBadgeText)}
 
-    <p style="margin:0 0 8px;color:#888;font-size:14px;line-height:1.7;">
-      We're sorry to see you go. Your cancellation has been processed and you won't be charged again.
+    <h1 style="margin:16px 0 8px;font-family:'Courier New',Courier,monospace;color:${COLORS.heading};font-size:24px;font-weight:700;letter-spacing:-0.5px;">Your ${planName} plan has been cancelled</h1>
+    <p style="margin:0 0 24px;font-family:Georgia,'Times New Roman',serif;color:${COLORS.body};font-size:15px;line-height:1.7;">
+      Your cancellation has been processed and you won't be charged again.
       ${accessUntil
-        ? `You'll retain full access until <strong style="color:#e0e0e0;">${accessUntil.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</strong>.`
-        : "Your access will end at the close of the current billing period."
+        ? `You'll retain full access to all features until <strong style="color:${COLORS.heading};">${accessUntil.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</strong>.`
+        : "Your access will continue until the end of your current billing period."
       }
     </p>
 
-    ${terminalBlock([
-      `> PLAN       : ${planName.toUpperCase()}`,
-      `> STATUS     : CANCELLED`,
-      accessUntil ? `> ACCESS_END : ${accessUntil.toISOString().split("T")[0]}` : `> ACCESS_END : END_OF_BILLING_PERIOD`,
-      `> AUTO_RENEW : DISABLED`,
-    ])}
+    ${infoBox([
+      { label: "Plan", val: planName },
+      { label: "Status", val: "Cancelled" },
+      { label: "Access ends", val: accessUntil ? accessUntil.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }) : "End of billing period" },
+      { label: "Auto-renewal", val: "Disabled" },
+    ], COLORS.dangerBg, COLORS.dangerBorder)}
 
-    ${ctaButton("REACTIVATE SUBSCRIPTION", `${BASE_URL}/pricing`)}
+    ${ctaButton("Reactivate Subscription", `${BASE_URL}/pricing`)}
 
     ${divider()}
 
-    <p style="margin:0;color:#333;font-size:11px;line-height:1.8;">
-      Changed your mind? You can reactivate any time from the pricing page.<br/>
-      Your data will be retained for 30 days after access ends.
-    </p>
-  `);
+    ${footnote(`Changed your mind? You can reactivate at any time from the <a href="${BASE_URL}/pricing" style="color:${COLORS.primaryDark};text-decoration:none;">pricing page</a>. Your account data is retained for 30 days after access ends.`)}
+  `, COLORS.dangerBorder);
 
-// ─── 6. Password Reset (bonus) ───────────────────────────────────────────────
+// ─── 6. Password Reset ───────────────────────────────────────────────────────
 
 export const getPasswordResetTemplate = (url: string) =>
   shell(`
-    <p style="margin:0 0 4px;color:#ffaa00;font-size:11px;letter-spacing:3px;">AUTH_RESET</p>
-    <h1 style="margin:0 0 24px;color:#ffffff;font-size:22px;font-weight:700;letter-spacing:2px;">Reset your password</h1>
+    ${badge("Password Reset", COLORS.alertBg, COLORS.alertBadgeText)}
 
-    <p style="margin:0 0 8px;color:#888;font-size:14px;line-height:1.7;">
-      A password reset was requested for your 3CAI account. Click below to set a new password. This link expires in 1 hour.
+    <h1 style="margin:16px 0 8px;font-family:'Courier New',Courier,monospace;color:${COLORS.heading};font-size:24px;font-weight:700;letter-spacing:-0.5px;">Reset your password</h1>
+    <p style="margin:0 0 24px;font-family:Georgia,'Times New Roman',serif;color:${COLORS.body};font-size:15px;line-height:1.7;">
+      We received a request to reset the password for your 3CAI account. Click the button below to choose a new password. This link is valid for one hour.
     </p>
 
-    ${terminalBlock([
-      `> ACTION  : PASSWORD_RESET`,
-      `> EXPIRES : 1 hour`,
-      `> STATUS  : PENDING`,
-    ])}
+    ${infoBox([
+      { label: "Request type", val: "Password reset" },
+      { label: "Expires in", val: "1 hour" },
+    ], COLORS.alertBg, COLORS.alertBorder)}
 
-    ${ctaButton("RESET PASSWORD", url)}
+    ${ctaButton("Reset Password", url)}
 
     ${divider()}
 
-    <p style="margin:0;color:#333;font-size:11px;line-height:1.8;">
-      Didn't request a reset? Ignore this email — your password remains unchanged.<br/>
-      If you're seeing unexpected activity, contact support.
-    </p>
-  `);
+    ${footnote(`Didn't request a password reset? Your account is safe — simply ignore this email and your password will remain unchanged.<br/>If you're experiencing unexpected activity, please <a href="${BASE_URL}/support" style="color:${COLORS.primaryDark};text-decoration:none;">contact support</a>.`)}
+  `, COLORS.alertBorder);

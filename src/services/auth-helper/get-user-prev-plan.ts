@@ -71,9 +71,10 @@ export async function clearUserSubscriptionTokens(userId: string) {
 }
 
 export function shouldRefreshTokensFromSubscriptionUpdate(
-  previousAttributes?: Record<string, any>
-) {
-  const planChanged = !!previousAttributes?.plan || !!previousAttributes?.items;
+  previousAttributes?: Record<string, unknown>
+): boolean {
+  const planChanged =
+    !!previousAttributes?.plan || !!previousAttributes?.items;
   const periodChanged =
     previousAttributes?.current_period_end !== undefined ||
     previousAttributes?.current_period_start !== undefined;

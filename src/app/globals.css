@@ -31,6 +31,12 @@
   --font-sans: var(--font-manrope), system-ui, sans-serif;
   --font-mono: var(--font-space-grotesk), monospace;
   --radius: 0.75rem;
+
+  --color-destructive: oklch(0.645 0.246 18.08); 
+  --color-destructive-foreground: oklch(0.98 0.01 255);
+
+  --color-success: oklch(0.69 0.19 154); 
+  --color-success-foreground: oklch(0.12 0.01 255);
 }
 
 .dark {
@@ -58,6 +64,12 @@
   
   --border: oklch(1 0 0 / 0.15);
   --ring: oklch(0.92 0.15 110);
+
+  --color-destructive: oklch(0.69 0.28 18.08); 
+  --color-destructive-foreground: oklch(0.12 0.01 255);
+  
+  --color-success: oklch(0.72 0.21 154); 
+  --color-success-foreground: oklch(0.05 0.01 255);
 }
 
 @theme inline {
@@ -86,6 +98,12 @@
   --radius-xl: calc(var(--radius) * 2);
 
   --shadow-neon: 0 40px 60px rgba(233, 255, 185, 0.06);
+
+  --color-destructive: var(--color-destructive);
+  --color-destructive-foreground: var(--color-destructive-foreground);
+
+  --color-success: var(--color-success);
+  --color-success-foreground: var(--color-success-foreground);
 }
 
 @layer base {

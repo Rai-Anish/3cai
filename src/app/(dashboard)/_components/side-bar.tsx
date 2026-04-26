@@ -153,10 +153,9 @@ export function AppSidebar() {
                                         ? "font-medium text-primary"
                                         : "text-muted-foreground hover:text-foreground"
                                     }`}
+                                     render={<Link href={subItem.url} />}
                                   >
-                                    <Link href={subItem.url}>
                                       {subItem.title}
-                                    </Link>
                                   </SidebarMenuSubButton>
                                 </SidebarMenuSubItem>
                               );
@@ -178,18 +177,14 @@ export function AppSidebar() {
                           ? "bg-primary/5 text-primary"
                           : "text-muted-foreground hover:text-foreground"
                       }`}
+                       render={<Link href={item.url} className="flex items-center gap-3" />}
                     >
-                      <Link href={item.url} className="flex items-center gap-3">
                         <item.icon
                           className={`h-4 w-4 ${isActive ? "animate-pulse" : ""}`}
                         />
                         <span className="font-mono text-xs uppercase tracking-widest">
                           {item.title}
                         </span>
-                        {isActive && (
-                          <MdChevronRight className="ml-auto h-3 w-3" />
-                        )}
-                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 );
