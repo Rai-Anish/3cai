@@ -26,11 +26,11 @@ export const FeatureItem = ({
   <li className="flex items-start gap-4 group">
     <Check
       className={cn(
-        "w-4 h-4 mt-1 shrink-0 text-lime-500",
-        planName === "Premium" && isFirst ? "text-purple-500" : "text-lime-500"
+        "w-5 h-5 shrink-0 transition-colors",
+        planName.toLowerCase() === "pro" ? "text-primary" : "text-muted-foreground"
       )}
     />
-    <span className="text-[15px] leading-tight text-zinc-400 group-hover:text-zinc-200 transition-colors">
+    <span className="text-[15px] leading-relaxed text-foreground/80 group-hover:text-foreground transition-colors">
       {feature}
     </span>
   </li>

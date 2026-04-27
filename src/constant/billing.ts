@@ -15,9 +15,9 @@ export const billingPlan: BillingPlan[] = [
     price: "$0",
     limits: { tokens: 5 },
     features: [
-      "Basic CV parsing",
-      "5 Mock interview sessions",
-      "Standard report",
+      "1 AI Resume Analysis",
+      "1 Mock Interview Session",
+      "Basic Career Roadmap",
     ],
   },
   {
@@ -26,10 +26,11 @@ export const billingPlan: BillingPlan[] = [
     price: "$9.99",
     limits: { tokens: 1000 },
     features: [
-      "Advance semantic CV parsing",
-      "Unlimited Mock interview sessions",
-      "Real-time behavioral metrics",
-      "Deep-dive gap analysis",
+      "Unlimited Resume Analysis",
+      "Unlimited AI Mock Interviews",
+      "Cover Letter Generator",
+      "Smart Course Recommendations",
+      "Salary Negotiation Bot",
     ],
   },
   {
@@ -39,10 +40,10 @@ export const billingPlan: BillingPlan[] = [
     limits: { tokens: 3000 },
     features: [
       "Everything in Pro",
-      "Human-expert review",
-      "Priority AI processing",
-      "1-on-1 counselor simulation",
-      "Custom roadmap build",
+      "Priority AI Processing (GPT-4o)",
+      "LinkedIn Profile Optimization",
+      "Direct Referral Network",
+      "1-on-1 Expert Review (Async)",
     ],
   },
 ];

@@ -132,10 +132,6 @@ export function ChatInput({
             <Send className="h-4 w-4" />
           </Button>
         </div>
-
-        <p className="mt-2 text-center text-[11px] text-muted-foreground/50">
-          Career Coach AI · Responses may not always be accurate. Use your judgment.
-        </p>
       </div>
     </div>
   );

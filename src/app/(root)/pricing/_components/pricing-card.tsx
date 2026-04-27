@@ -10,25 +10,25 @@ interface PricingCardProps {
 }
 
 export const PricingCard = ({ plan }: PricingCardProps) => {
-  const isPro = plan.name === "Pro";
+  const isPro = plan.name.toLowerCase() === "pro";
 
   return (
     <Card
       className={cn(
-        "relative flex flex-col p-10 transition-all duration-500 border-zinc-800 bg-zinc-900/40 rounded-2xl",
-        isPro && "border-lime-500/50 bg-[#0A0D08] shadow-[0_0_50px_-20px_rgba(163,230,53,0.3)]"
+        "relative flex flex-col p-10 transition-all duration-500 bg-card/40 backdrop-blur-xl border border-white/5 rounded-3xl hover:scale-105 overflow-visible",
+        isPro && "border-primary/30 bg-primary/5 shadow-[0_0_50px_-15px_var(--color-primary)] scale-105 z-10 hover:scale-110"
       )}
     >
       {isPro && (
-        <Badge className="absolute top-6 right-6 bg-lime-200 text-black hover:bg-lime-200 font-black italic rounded-sm text-[10px] px-3 py-1">
-          POPULAR
+        <Badge className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground font-black italic rounded-full text-xs px-4 py-1.5 shadow-[0_0_15px_var(--color-primary)]">
+          MOST POPULAR
         </Badge>
       )}
 
-      <div className="flex justify-between items-start mb-2">
+      <div className="flex justify-between items-start mb-4">
         <h3 className={cn(
-          "text-lg font-bold tracking-tight uppercase italic",
-          isPro ? "text-lime-200" : "text-zinc-100"
+          "text-2xl font-black tracking-tight uppercase",
+          isPro ? "text-primary" : "text-foreground"
         )}>
           {plan.name}
         </h3>
@@ -49,7 +49,10 @@ export const PricingCard = ({ plan }: PricingCardProps) => {
           ))}
         </ul>
       </div>
-      <CreateSubscribeBtn plan={plan} />
+      
+      <div className="mt-auto">
+        <CreateSubscribeBtn plan={plan} />
+      </div>
 
     </Card>
   );

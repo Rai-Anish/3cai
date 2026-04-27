@@ -44,7 +44,7 @@ const items = [
       { title: "CV Generator", url: "/ai-tools/cover-letter-generator" },
     ],
   },
-  { title: "My History", url: "/history", icon: RiFileHistoryLine },
+  // { title: "My History", url: "/history", icon: RiFileHistoryLine },
   { title: "Billing", url: "/billing", icon: IoWalletSharp },
   { title: "Profile", url: "/profile", icon: IoPerson },
   { title: "Plans", url: "/pricing", icon: IoDiamondOutline },
@@ -97,7 +97,7 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel className="mb-4 px-4 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-            Navigation_Nodes
+            Platform
           </SidebarGroupLabel>
 
           <SidebarGroupContent>

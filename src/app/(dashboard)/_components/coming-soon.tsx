@@ -87,9 +87,9 @@ export function ComingSoon({
         {/* Hero text with glitch */}
         <h1
           className="animate-cs-fadeup-2 cs-glitch mb-2 font-mono text-[clamp(2.5rem,8vw,6rem)] font-black uppercase italic leading-none tracking-tighter text-[#e9ffb9]"
-          data-text="THE FUTURE"
+          data-text={`${feature}`}
         >
-          THE FUTURE
+          {feature}
         </h1>
         <h2 className="animate-cs-fadeup-2 mb-8 font-mono text-[clamp(1.5rem,5vw,3.5rem)] font-black uppercase italic leading-none tracking-tighter text-[#acaaae]/25">
           IS BEING BUILT

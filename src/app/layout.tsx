@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Manrope } from "next/font/google";
+import { Space_Grotesk, Manrope, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+
 // Editorial & Body Font (Manrope)
 const manrope = Manrope({
   subsets: ["latin"],
@@ -14,6 +15,14 @@ const manrope = Manrope({
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-space-grotesk",
+  display: "swap",
+});
+
+// Humane & Elegant Serif Font
+const instrumentSerif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-serif",
   display: "swap",
 });
 
@@ -30,7 +39,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className="dark">
       <body
-        className={`${manrope.variable} ${spaceGrotesk.variable} antialiased`}
+        className={`${manrope.variable} ${spaceGrotesk.variable} ${instrumentSerif.variable} antialiased noise-overlay`}
         suppressHydrationWarning
       >
         <TooltipProvider>{children}</TooltipProvider>

@@ -5,7 +5,7 @@ import { ComingSoon } from '../../_components/coming-soon'
 export default function CareerRoadmapPage() {
   return (
     <main>
-        <ComingSoon />
+      <ComingSoon feature='AI Career Roadmap' />
     </main>
   )
 }

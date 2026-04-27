@@ -1,9 +1,11 @@
 import React from 'react'
+import { ComingSoon } from '../_components/coming-soon'
 
-type Props = {}
 
-export default function HistoryPage({}: Props) {
+export default function HistoryPage() {
   return (
-    <div>HistoryPage</div>
+    <div>
+      <ComingSoon description='Users history activies will be shown here' feature='History' />
+    </div>
   )
 }
