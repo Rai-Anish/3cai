@@ -30,6 +30,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
+import Logo from "@/components/logo";
 
 const items = [
   { title: "Workspace", url: "/workspace", icon: MdDashboard },
@@ -39,9 +40,9 @@ const items = [
     icon: TbTools,
     subItems: [
       { title: "Chat", url: "/ai-tools/chat" },
-      { title: "CV Analyzer", url: "/ai-tools/cv-analyzer" },
       { title: "Career Roadmap", url: "/ai-tools/career-roadmap" },
-      { title: "CV Generator", url: "/ai-tools/cover-letter-generator" },
+      { title: "CV Analyzer", url: "/ai-tools/cv-analyzer" },
+      { title: "Cover Letter Generator", url: "/ai-tools/cover-letter-generator" },
     ],
   },
   // { title: "My History", url: "/history", icon: RiFileHistoryLine },
@@ -55,9 +56,8 @@ export function AppSidebar() {
   const router = useRouter();
 
   const aiToolsItem = items.find((item) => item.title === "AI Tools");
-  const aiToolsActive =
-    pathname === aiToolsItem?.url ||
-    aiToolsItem?.subItems?.some((subItem) => pathname === subItem.url);
+  const aiToolsActive = 
+    pathname.startsWith("/ai-tools");
 
   const [aiToolsOpen, setAiToolsOpen] = React.useState(Boolean(aiToolsActive));
 
@@ -75,12 +75,7 @@ export function AppSidebar() {
       <SidebarHeader className="p-6">
         <div className="flex items-center gap-3">
           <div className="flex items-center justify-center">
-            <Image
-              src="/assets/main_logo.png"
-              alt="3CAI"
-              width={40}
-              height={40}
-            />
+            <Logo />
           </div>
 
           <div className="flex flex-col">
@@ -103,9 +98,9 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => {
-                const isActive =
-                  pathname === item.url ||
-                  item.subItems?.some((subItem) => pathname === subItem.url);
+                const isActive = item.subItems 
+                  ? pathname.startsWith(item.url) 
+                  : pathname === item.url;
 
                 if (item.subItems) {
                   return (
@@ -120,16 +115,14 @@ export function AppSidebar() {
                           render={
                             <button
                               type="button"
-                              className={`flex w-full items-center gap-3 rounded-md px-4 py-6 text-left transition-all duration-200 ease-out ${
-                                isActive
-                                  ? "bg-primary/5 text-primary"
-                                  : "text-muted-foreground hover:text-foreground"
-                              }`}
+                              className={`flex w-full items-center gap-3 rounded-md px-4 py-6 text-left transition-all duration-200 ease-out ${isActive
+                                ? "bg-primary/5 text-primary"
+                                : "text-muted-foreground hover:text-foreground"
+                                }`}
                             >
                               <item.icon
-                                className={`h-4 w-4 transition-transform duration-200 ${
-                                  isActive ? "animate-pulse" : ""
-                                }`}
+                                className={`h-4 w-4 transition-transform duration-200 ${isActive ? "animate-pulse" : ""
+                                  }`}
                               />
                               <span className="font-mono text-xs uppercase tracking-widest">
                                 {item.title}
@@ -142,20 +135,19 @@ export function AppSidebar() {
                         <CollapsibleContent className="overflow-hidden data-closed:animate-out data-closed:fade-out-0 data-open:animate-in data-open:fade-in-0">
                           <SidebarMenuSub>
                             {item.subItems.map((subItem) => {
-                              const isSubActive = pathname === subItem.url;
+                              const isSubActive = pathname.startsWith(subItem.url);
 
                               return (
                                 <SidebarMenuSubItem key={subItem.title}>
                                   <SidebarMenuSubButton
                                     isActive={isSubActive}
-                                    className={`transition-colors duration-200 ${
-                                      isSubActive
-                                        ? "font-medium text-primary"
-                                        : "text-muted-foreground hover:text-foreground"
-                                    }`}
-                                     render={<Link href={subItem.url} />}
+                                    className={`transition-colors duration-200 ${isSubActive
+                                      ? "font-medium text-primary"
+                                      : "text-muted-foreground hover:text-foreground"
+                                      }`}
+                                    render={<Link href={subItem.url} />}
                                   >
-                                      {subItem.title}
+                                    {subItem.title}
                                   </SidebarMenuSubButton>
                                 </SidebarMenuSubItem>
                               );
@@ -172,19 +164,18 @@ export function AppSidebar() {
                     <SidebarMenuButton
                       tooltip={item.title}
                       isActive={isActive}
-                      className={` px-4 py-6 transition-all duration-200 ${
-                        isActive
-                          ? "bg-primary/5 text-primary"
-                          : "text-muted-foreground hover:text-foreground"
-                      }`}
-                       render={<Link href={item.url} className="flex items-center gap-3" />}
+                      className={` px-4 py-6 transition-all duration-200 ${isActive
+                        ? "bg-primary/5 text-primary"
+                        : "text-muted-foreground hover:text-foreground"
+                        }`}
+                      render={<Link href={item.url} className="flex items-center gap-3" />}
                     >
-                        <item.icon
-                          className={`h-4 w-4 ${isActive ? "animate-pulse" : ""}`}
-                        />
-                        <span className="font-mono text-xs uppercase tracking-widest">
-                          {item.title}
-                        </span>
+                      <item.icon
+                        className={`h-4 w-4 ${isActive ? "animate-pulse" : ""}`}
+                      />
+                      <span className="font-mono text-xs uppercase tracking-widest">
+                        {item.title}
+                      </span>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 );

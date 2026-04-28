@@ -1,13 +1,15 @@
 import Link from "next/link";
+import Image from "next/image";
 import { FaGithub, FaTwitter, FaLinkedin, FaInstagram, FaDiscord } from "react-icons/fa";
 import { Sparkles } from "lucide-react";
 import { Button } from "./ui/button";
+import Logo from "./logo";
 
 export function Footer() {
   return (
-    <footer className="relative mt-16 md:mt-32 bg-black border-t border-white/10 pt-16 md:pt-24 pb-12 overflow-hidden">
+    <footer className="relative  bg-black border-t border-white/10 pt-16 md:pt-24 pb-12 overflow-hidden">
       {/* Dynamic Background Elements */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] md:h-[800px] bg-[radial-gradient(circle_at_50%_40%,var(--color-hero-glow),transparent_70%)] -z-10 pointer-events-none opacity-50" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-150 md:h-200 bg-[radial-gradient(circle_at_50%_40%,var(--color-hero-glow),transparent_70%)] -z-10 pointer-events-none opacity-50" />
       
       {/* Geometric Background Layer */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -41,15 +43,13 @@ export function Footer() {
           {/* Brand Column */}
           <div className="col-span-2 lg:col-span-2 flex flex-col gap-8">
             <Link href="/" className="flex items-center gap-2 group w-fit">
-              <div className="w-10 h-10 rounded-2xl bg-primary/20 border border-primary/30 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_20px_var(--color-primary-20)]">
-                <Sparkles className="w-5 h-5 text-primary" />
-              </div>
+              <Logo size={50}/>
               <span className="text-3xl font-black tracking-tighter text-white">
                 3CAI
               </span>
             </Link>
             <p className="text-muted-foreground text-sm max-w-xs leading-relaxed">
-              We're on a mission to humanize the job hunt. Empowering your journey with empathetic AI and intelligent career strategy.
+              We&apos;re on a mission to humanize the job hunt. Empowering your journey with empathetic AI and intelligent career strategy.
             </p>
             <div className="flex gap-4">
               {[

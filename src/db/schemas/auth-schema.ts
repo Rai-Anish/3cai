@@ -7,6 +7,7 @@ import {
   integer,
   index,
   uniqueIndex,
+  jsonb,
 } from "drizzle-orm/pg-core";
 
 export const user = pgTable("user", {
@@ -105,6 +106,7 @@ export const subscription = pgTable("subscription", {
 export const userRelations = relations(user, ({ many }) => ({
   sessions: many(session),
   accounts: many(account),
+  roadmaps: many(roadmap),
 }));
 
 export const sessionRelations = relations(session, ({ one }) => ({
@@ -167,4 +169,42 @@ export const tokenUsageLog = pgTable(
 // Relations
 export const tokenBalanceRelations = relations(tokenBalance, ({ one }) => ({
   user: one(user, { fields: [tokenBalance.userId], references: [user.id] }),
+}));
+
+
+export const roadmap = pgTable(
+  "roadmap",
+  {
+    id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    title: text("title"),
+    description: text("description"),
+    duration: text("duration"),
+    userInput: text("user_input").notNull(),
+    nodes: jsonb("nodes").default([]),
+    edges: jsonb("edges").default([]),
+    status: text("status", {
+      enum: ["pending", "completed", "failed"]
+    }).default("pending").notNull(),
+    model: text("model").default("gemini"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at")
+      .defaultNow()
+      .$onUpdate(() => new Date())
+      .notNull(),
+  },
+  (table) => [
+    index("roadmap_userId_idx").on(table.userId),
+    index("roadmap_status_idx").on(table.status),
+  ]
+);
+
+
+export const roadmapRelations = relations(roadmap, ({ one }) => ({
+  user: one(user, {
+    fields: [roadmap.userId],
+    references: [user.id],
+  }),
 }));

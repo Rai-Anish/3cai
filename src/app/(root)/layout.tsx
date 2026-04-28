@@ -4,6 +4,7 @@ import { Navbar } from "@/components/navbar";
 import { auth } from "@/lib/auth";
 
 import { headers } from "next/headers";
+import { Container } from "@/components/container";
 
 // Destructure children from the props object
 export default async function Layout({ children }: { children: React.ReactNode }) {
@@ -11,10 +12,12 @@ export default async function Layout({ children }: { children: React.ReactNode }
     headers: await headers()
   });
   return (
-    <div className="min-h-screen antialiased p-8 bg-background text-foreground transition-colors duration-500">
+    <>
       <Navbar session={session} />
-      {children}
-      <Footer />
-    </div>
+      <Container>
+        {children}
+        <Footer />
+      </Container>
+    </>
   );
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import { GlowBg } from "@/components/glow-bg";
 import { Button } from "@/components/ui/button";
 import { Sparkles, ArrowRight, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
@@ -9,9 +10,7 @@ export function ProofSection() {
         <section className="relative px-6 py-32 overflow-hidden">
 
             {/* Background Glow */}
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(172,137,255,0.15)_0%,transparent_70%)]" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(233,255,185,0.08)_0%,transparent_60%)]" />
-
+            <GlowBg />
             <div className="max-w-5xl mx-auto text-center relative z-10 flex flex-col items-center">
 
                 {/* Badge */}

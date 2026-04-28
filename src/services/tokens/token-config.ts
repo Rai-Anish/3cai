@@ -11,9 +11,10 @@ export const TOKEN_CONFIG = {
   PREMIUM_INITIAL_GRANT: PREMIUM_PLAN.limits.tokens,
   RESET_INTERVAL_DAYS: 14,
   COSTS: {
-    ai_generation: 1,
-    export: 5,
-    analysis: 15,
+    ai_chat: 1,
+    ai_roadmap: 5,
+    ai_resume_analysis: 20,
+    ai_cover_letter_generation: 10,
   },
 } as const;
 

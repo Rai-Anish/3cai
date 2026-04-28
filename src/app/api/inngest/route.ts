@@ -5,6 +5,7 @@ import {
   grantFreeTokensFunction,
   resetFreeUserTokensFunction,
 } from "@/inngest/functions/token-functions";
+import { AiRoadmapWorker } from "@/inngest/functions/roadmap/roadmap-worker";
 
 export const { GET, POST, PUT } = serve({
   client: inngest,
@@ -12,6 +13,7 @@ export const { GET, POST, PUT } = serve({
     toolActionRequestedFunction,
     grantFreeTokensFunction,
     resetFreeUserTokensFunction,
+    AiRoadmapWorker,
   ],
 });
 

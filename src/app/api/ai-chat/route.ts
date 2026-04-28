@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
 
     const consumeResult = await consumeTokens(
       session.user.id,
-      "ai_generation",
+      "ai_chat",
       requestId,
     );
 

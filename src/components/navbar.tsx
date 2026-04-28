@@ -6,7 +6,9 @@ import Image from "next/image";
 import { ChevronDown, FileText, MessageSquareText, Map, Menu } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import { Container } from "./container";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
+import Logo from "./logo";
 
 export function Navbar({ session }: { session: any }) {
   const pathname = usePathname();
@@ -14,18 +16,12 @@ export function Navbar({ session }: { session: any }) {
 
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 flex justify-center border-b border-white/5 bg-background/60 backdrop-blur-xl">
-      <nav className="flex justify-between items-center px-6 md:px-12 py-4 w-full">
+    <div className="fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none">
+      <Container as="nav" className="flex px-5 md:px-14 xl:px-20 justify-between items-center py-4 border-b border-white/5 bg-background/60 backdrop-blur-xl  pointer-events-auto">
         <div className="flex justify-start items-center gap-2">
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center group-hover:scale-105 transition-transform">
-              <Image 
-                src="/assets/main_logo.png" 
-                alt="3CAI Logo" 
-                width={32} 
-                height={32} 
-                className="object-contain"
-              />
+            <div >
+             <Logo size={50}/>
             </div>
             <span className="text-xl font-black tracking-tighter">
               3CAI
@@ -119,7 +115,7 @@ export function Navbar({ session }: { session: any }) {
                   <Link href="/" className="flex items-center gap-2 mb-12 group w-fit">
                     <div className="w-10 h-10 rounded-xl overflow-hidden flex items-center justify-center group-hover:scale-110 transition-transform">
                       <Image 
-                        src="/assets/main_logo.png" 
+                        src="/assets/logo.svg" 
                         alt="3CAI Logo" 
                         width={40} 
                         height={40} 
@@ -172,7 +168,7 @@ export function Navbar({ session }: { session: any }) {
             </Sheet>
           </div>
         </div>
-      </nav>
+      </Container>
     </div>
   );
 }

@@ -71,8 +71,8 @@ export default function ChatPage() {
             : "I could not generate a response.",
         input:
           result.data?.input &&
-          Array.isArray(result.data.input.options) &&
-          result.data.input.options.length > 0
+            Array.isArray(result.data.input.options) &&
+            result.data.input.options.length > 0
             ? result.data.input
             : undefined,
       };
