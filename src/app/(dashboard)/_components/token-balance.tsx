@@ -11,7 +11,7 @@ export function TokenBalance() {
     TOKEN_BALANCE_KEY,
     fetchTokenBalance,
     {
-      refreshInterval: 30000,
+      refreshInterval: 2000,
       revalidateOnFocus: true,
       dedupingInterval: 3000,
     }

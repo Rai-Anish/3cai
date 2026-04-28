@@ -1,4 +1,4 @@
-import { gemini, openaiResponses } from "inngest";
+import { gemini, openai, openaiResponses } from "inngest";
 import { createAgent } from "@inngest/agent-kit";
 import { geminiCareerPrompt } from "@/lib/ai/prompt/gemini-career-prompt";
 import { groqCareerPrompt } from "@/lib/ai/prompt/groq-career-prompt";
@@ -18,7 +18,7 @@ export const chatModels = {
     name: "Career QnA Groq",
     description: "Provides expert support for career-related questions",
     system: groqCareerPrompt,
-    model: openaiResponses({
+    model: openai({
       baseUrl: "https://api.groq.com/openai/v1",
       model: "llama-3.1-8b-instant",
       apiKey: process.env.GROQ_API_KEY,

@@ -53,7 +53,7 @@ export function ChatMessageList({
                   "max-w-[85%] rounded-2xl px-4 py-3 text-sm leading-6 shadow-sm",
                   isUser
                     ? "bg-primary text-primary-foreground"
-                    : "border border-border/60 bg-card text-card-foreground",
+                    : "border border-border/60 bg-card ",
                 ].join(" ")}
               >
                 <div className="mb-2 text-[11px] font-medium uppercase tracking-wide opacity-70">
