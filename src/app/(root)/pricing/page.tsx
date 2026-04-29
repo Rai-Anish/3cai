@@ -6,9 +6,6 @@ import { cn } from "@/lib/utils";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 export default function PricingPage() {
-  const handleSelect = (priceId: string) => {
-    console.log("Selected Price ID:", priceId);
-  };
 
   return (
     <section className="relative min-h-screen bg-background text-foreground py-24 md:py-32 px-6 overflow-hidden">

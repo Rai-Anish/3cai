@@ -23,7 +23,7 @@ export const CreateSubscribeBtn = ({
   const { data: session } = authClient.useSession();
 
   const handleSubscription = async () => {
-    // 1. Auth Guard: Redirect to sign-in if not authenticated
+    //Auth Guard: Redirect to sign-in if not authenticated
     if (!session) {
       toast.info("Authentication required", {
         description: "Please sign in to proceed with the upgrade protocol.",
@@ -50,7 +50,7 @@ export const CreateSubscribeBtn = ({
         return;
       }
 
-      // 2. The redirect happens automatically by Better Auth if disableRedirect is false.
+      //redirect happens automatically by Better Auth if disableRedirect is false.
       // If it doesn't redirect for any reason, manually trigger it:
       if (data?.url) {
         window.location.href = data.url;
@@ -67,7 +67,7 @@ export const CreateSubscribeBtn = ({
     }
   };
 
-  // 3. Dynamic Styling based on Plan Name
+  // Dynamic Styling based on Plan Name
   const isPro = plan.name === "Pro";
 
   return (

@@ -1,8 +1,7 @@
-// src/app/(auth)/reset-password/page.tsx
 "use client";
 
 import * as React from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { Label } from "@/components/ui/label";
@@ -26,10 +25,13 @@ function getStrength(pw: string): { score: number; label: string; color: string 
   return { score, label: "Strong", color: "bg-primary" };
 }
 
-export default function ResetPasswordPage() {
+export default function ResetPasswordPage({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const token = searchParams.get("token");
+  const token = searchParams.token as string;
 
   const [password, setPassword] = React.useState("");
   const [confirm, setConfirm] = React.useState("");
@@ -88,7 +90,7 @@ export default function ResetPasswordPage() {
     );
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
     if (!isValid) return;
 
