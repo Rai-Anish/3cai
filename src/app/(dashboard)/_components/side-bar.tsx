@@ -41,7 +41,7 @@ const items = [
     subItems: [
       { title: "Chat", url: "/ai-tools/chat" },
       { title: "Career Roadmap", url: "/ai-tools/career-roadmap" },
-      { title: "CV Analyzer", url: "/ai-tools/cv-analyzer" },
+      { title: "Resume Analyzer", url: "/ai-tools/resume-analyzer" },
       { title: "Cover Letter Generator", url: "/ai-tools/cover-letter-generator" },
     ],
   },

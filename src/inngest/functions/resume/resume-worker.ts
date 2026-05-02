@@ -1,53 +1,57 @@
-import { inngest } from "@/inngest/client";
-import { resumeModal } from "./resume-agents";
-import { consumeTokens } from "@/services/tokens/token-service";
-import { roadmap } from "@/db/schemas";
-import { db } from "@/db";
+// src/inngest/functions/resume/resume-worker.ts
 import { eq } from "drizzle-orm";
-import { parseRoadmapOutput } from "@/lib/ai/parser/parse-roadmap";
+import { inngest } from "@/inngest/client";
+import { db } from "@/db";
+import { resumeAnalysis } from "@/db/schemas";
+import { ai_resume_analysis } from "@/lib/ai/resume-analysis";
+import type { ResumeAnalysis } from "@/lib/ai/resume/resume-types";
 
-export const AiResumeWorker = inngest.createFunction(
+export const AiResumeAnalyzerWorker = inngest.createFunction(
   {
-    id: "ai-resume-worker",
-    name: "Generate Resume Worker",
-    triggers: [{ event: "resumeAnalyzer/generate.requested" }],
+    id: "ai-resume-analyzer-worker",
+    name: "Generate Resume Analyzer Worker",
+    triggers: [{ event: "ai/resume.analyze" }],
   },
   async ({ event, step }) => {
-    const { resumeId, userInput, userId, model } = event.data;
+    const { analysisId, resumeText, targetRole, jobDescription, model, instruction } = event.data;
 
-    // consume token
-    await step.run("consume-user-token", async () => {
-      const result = await consumeTokens(userId, "ai_resume_analysis", `resume-${resumeId}`);
-      if (!result.success) throw new Error("Failed to consume tokens");
-      return result;
-    });
+    try {
+      const result = (await ai_resume_analysis({
+        resumeText,
+        targetRole,
+        jobDescription,
+        model,
+        instruction,
+      })) as ResumeAnalysis;
 
-    // analyze resume
-    const agent = model === 'groq' ? resumeModal.groq : resumeModal.gemini;
-    const result = await agent.run(userInput);
+      await step.run("save-analysis", async () => {
+        await db
+          .update(resumeAnalysis)
+          .set({
+            score: result.score,
+            originalText: result.originalText ?? resumeText,
+            editedText: result.improvedResumeText,
+            resumeJson: result.resumeDocument,
+            analysis: result,
+            status: "completed",
+            updatedAt: new Date(),
+          })
+          .where(eq(resumeAnalysis.id, analysisId));
+      });
 
-    if (!result?.output) throw new Error("No output from AI");
+      return { ok: true, analysisId };
+    } catch (error) {
+      await db
+        .update(resumeAnalysis)
+        .set({
+          status: "failed",
+          error: error instanceof Error ? error.message : "Resume analysis failed",
+          updatedAt: new Date(),
+        })
+        .where(eq(resumeAnalysis.id, analysisId));
 
-    console.log("resume from fn: ", result.output);
-
-    // await step.run("parse-and-save-resume", async () => {
-    //   const parsed = parseRoadmapOutput(result.output as any);
-
-    //   await db.update(roadmap)
-    //     .set({
-    //       title: parsed.roadmapTitle,
-    //       userInput: userInput,
-    //       description: parsed.description,
-    //       duration: parsed.duration,
-    //       nodes: parsed.initialNodes,
-    //       edges: parsed.initialEdges,
-    //       status: "completed",
-    //     })
-    //     .where(eq(roadmap.id, roadmapId));
-
-    //   return parsed;
-    // });
-
-    // return { roadmapId, status: "completed" };
-  }
+      throw error;
+    }
+  },
 );
+

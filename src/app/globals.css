@@ -402,3 +402,151 @@
     animation: cs-glitchB 4s infinite linear;
   }
 }
+
+
+.resume-editor .ProseMirror {
+  min-height: 980px;
+  outline: none;
+}
+
+.resume-editor .ProseMirror p {
+  margin: 0.35rem 0;
+  line-height: 1.7;
+}
+
+.resume-editor .ProseMirror h1 {
+  font-size: 2.25rem;
+  line-height: 1.1;
+  text-align: center;
+}
+
+.resume-editor .ProseMirror h2 {
+  margin-top: 1.4rem;
+  border-bottom: 1px solid hsl(var(--border));
+  padding-bottom: 0.25rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.resume-editor .ProseMirror h3 {
+  margin-top: 0.8rem;
+  font-size: 1rem;
+}
+
+.resume-editor .ProseMirror ul,
+.resume-editor .ProseMirror ol {
+  margin: 0.5rem 0;
+  padding-left: 1.4rem;
+}
+
+.resume-editor .ProseMirror table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+.resume-editor .ProseMirror td,
+.resume-editor .ProseMirror th {
+  border: 1px solid hsl(var(--border));
+  padding: 0.5rem;
+  vertical-align: top;
+}
+
+.resume-editor .ProseMirror .is-empty::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: rgb(148 163 184 / 0.55);
+  pointer-events: none;
+  height: 0;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .resume-print-area,
+  .resume-print-area * {
+    visibility: visible;
+  }
+
+  .resume-print-area {
+    position: absolute;
+    inset: 0;
+    box-shadow: none !important;
+    border: none !important;
+  }
+}
+
+
+.resume-page .ProseMirror {
+  min-height: 920px;
+  outline: none;
+  color: #111827;
+  font-family: var(--font-sans);
+}
+
+.resume-page .ProseMirror p {
+  margin: 0.28rem 0;
+  line-height: 1.55;
+}
+
+.resume-page .ProseMirror h1 {
+  margin: 0 0 0.35rem;
+  font-size: 2.15rem;
+  line-height: 1.08;
+  font-weight: 800;
+  text-align: center;
+  color: #111111;
+}
+
+.resume-page .ProseMirror h2 {
+  margin: 1.35rem 0 0.55rem;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 0.25rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #9ca3af;
+}
+
+.resume-page .ProseMirror h3 {
+  margin: 0.75rem 0 0.15rem;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #111111;
+}
+
+.resume-page .ProseMirror ul,
+.resume-page .ProseMirror ol {
+  margin: 0.35rem 0;
+  padding-left: 1.25rem;
+}
+
+.resume-page .ProseMirror li {
+  margin: 0.2rem 0;
+  line-height: 1.55;
+}
+
+.resume-page .ProseMirror table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.8rem 0;
+}
+
+.resume-page .ProseMirror td,
+.resume-page .ProseMirror th {
+  border: 1px solid #d1d5db;
+  padding: 0.45rem;
+  vertical-align: top;
+}
+
+.resume-page .ProseMirror .is-empty::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: rgb(148 163 184 / 0.55);
+  pointer-events: none;
+  height: 0;
+}

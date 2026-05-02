@@ -19,6 +19,10 @@ export const resumeAnalysis = pgTable(
     originalText: text("original_text"),
     editedText: text("edited_text"),
 
+    resumeJson: jsonb("resume_json").default({}),
+    templateId: text("template_id").default("modern"),
+    themeId: text("theme_id").default("classic"),
+
     score: integer("score"),
     analysis: jsonb("analysis").default({}),
     status: text("status", {
