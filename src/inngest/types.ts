@@ -1,4 +1,3 @@
-// src/lib/inngest/types.ts
 import type { FeatureKey } from "@/services/tokens/token-config";
 
 export type TokenConsumeEvent = {

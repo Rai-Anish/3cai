@@ -1,4 +1,3 @@
-// app/(dashboard)/ai-tools/career-roadmap/[roadmapId]/page.tsx
 import { db } from "@/db"
 import { roadmap } from "@/db/schemas"
 import { auth } from "@/lib/auth"

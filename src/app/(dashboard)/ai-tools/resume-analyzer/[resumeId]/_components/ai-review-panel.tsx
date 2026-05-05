@@ -16,6 +16,8 @@ export function AiReviewPanel({
   onSave,
   onReview,
   onApplySuggestion,
+  canReanalyze,
+  totalTokens
 }: {
   resume: any;
   score: number;
@@ -27,6 +29,8 @@ export function AiReviewPanel({
   onSave: () => void;
   onReview: () => void;
   onApplySuggestion: (suggestion: ResumeSuggestion) => void;
+  canReanalyze: boolean;
+  totalTokens: number
 }) {
   const clarity = Math.min(100, score + 8);
   const impact = Math.max(0, score - 12);
@@ -48,15 +52,12 @@ export function AiReviewPanel({
               <Save className="mr-2 h-4 w-4" />
               Save
             </Button>
-            <Button className="col-span-2" onClick={onReview} disabled={status === "processing" || isPending}>
+            <Button className="col-span-2" onClick={onReview} disabled={!canReanalyze || status === "processing" || isPending}>
               {status === "processing" ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Sparkles className="mr-2 h-4 w-4" />}
               AI Review
             </Button>
           </div>
-
-          <p className="mt-2 text-xs leading-5 text-white/45">
-            In the print dialog, turn off Headers and footers for a clean PDF.
-          </p>
+          {!canReanalyze && <p className="text-xs text-destructive font-light text-wrap min-w-full mt-2 italic">You need 20 tokens for AI Review but you only have {totalTokens} tokens.</p>}
         </section>
 
         <section className="mt-6 border-t border-white/10 pt-5">

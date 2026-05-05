@@ -2,8 +2,6 @@
 
 import React, { useState } from "react";
 import {
-  Sparkles,
-  GraduationCap,
   Brain,
   CheckCircle2,
   TrendingUp,
@@ -14,6 +12,7 @@ import {
   BarChart3,
 } from "lucide-react";
 import { RoadmapTimeline } from "./roadmap-timeline";
+import { RiRobot3Fill } from "react-icons/ri";
 
 // ── Resume Visual ─────────────────────────────────────────────────────────────
 
@@ -125,7 +124,7 @@ function CoachVisual() {
         >
           {m.from === "ai" && (
             <div className="h-7 w-7 shrink-0 rounded-full bg-primary/15 border border-primary/20 flex items-center justify-center mt-0.5">
-              <Sparkles className="w-3.5 h-3.5 text-primary" />
+              <RiRobot3Fill className="w-3.5 h-3.5 text-primary" />
             </div>
           )}
           <div className={`max-w-[82%] flex flex-col gap-1.5 ${m.from === "user" ? "items-end" : "items-start"}`}>
@@ -334,14 +333,14 @@ const services = [
   {
     title: "Dynamic Cover Letter Engine",
     description:
-      "One job description in, one high-converting cover letter out — matched to the company's culture, the role's tone, and what actually gets responses.",
+      "Generate high-converting cover letters tailored to the company's culture, the role's tone, and what actually gets responses.",
     points: ["Tone Matching", "Culture Alignment", "Role-Specific Targeting"],
     visual: <CoverLetterVisual />,
   },
   {
     title: "Personalized Course Recommendations",
     description:
-      "We don't recommend courses. We prescribe them. Every suggestion is tied to a specific gap in your roadmap that's blocking your next move.",
+      "We don’t just throw courses at you. We look for the specific roadblocks in your path and give you exactly what you need to clear them.",
     points: ["Gap-Specific Learning", "Curated Resource Hub", "Roadmap-Linked"],
     visual: <CoursesVisual />,
   },
@@ -351,13 +350,13 @@ const services = [
 
 export function FeaturesGrid() {
   return (
-    <section className="px-6 max-w-7xl mx-auto space-y-32 md:space-y-48 py-24">
+    <section className="px-6 max-w-7xl md:mx-auto space-y-32 md:space-y-48 py-24">
       {services.map((service, index) => {
 
         if (service.isRoadmap) {
           return (
-            <div key={index} className="flex flex-col gap-12">
-              <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
+            <div key={index} className="flex flex-col gap-4 lg:gap-12">
+              <div className="flex flex-col gap-3 lg:gap-8">
                 <div className="space-y-4 max-w-xl">
                   <h3 className="text-4xl md:text-5xl font-black tracking-tighter uppercase italic leading-[0.9]">
                     {service.title}
@@ -386,7 +385,7 @@ export function FeaturesGrid() {
         return (
           <div
             key={index}
-            className={`flex flex-col md:flex-row items-center gap-16 md:gap-24 ${index % 2 !== 0 ? "md:flex-row-reverse" : ""}`}
+            className={`flex flex-col-reverse lg:flex-row items-center gap-16 md:gap-24 `}
           >
             <div className="flex-1 w-full">
               <div className="rounded-3xl border border-white/5 bg-zinc-950/60 backdrop-blur-xl p-6 md:p-8 relative overflow-hidden">

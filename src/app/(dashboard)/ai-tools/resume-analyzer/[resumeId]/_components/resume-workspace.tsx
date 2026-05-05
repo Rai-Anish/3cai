@@ -24,7 +24,7 @@ import {
   selectedOrSummary,
 } from "../_lib/resume-editor-utils";
 
-export default function ResumeWorkspace({ resume }: { resume: any }) {
+export default function ResumeWorkspace({ resume, canReanalyze, totalTokens }: { resume: any; canReanalyze: boolean, totalTokens: number }) {
   const printFrameRef = useRef<HTMLIFrameElement | null>(null);
   const [analysis, setAnalysis] = useState<ResumeAnalysis | null>(resume.analysis ?? null);
   const [status, setStatus] = useState(resume.status);
@@ -37,7 +37,16 @@ export default function ResumeWorkspace({ resume }: { resume: any }) {
     extensions: [
       StarterKit.configure({ heading: { levels: [1, 2, 3] } }),
       Placeholder.configure({ placeholder: "Type / for commands..." }),
-      Link.configure({ openOnClick: false, autolink: true, defaultProtocol: "https" }),
+      Link.configure({
+        openOnClick: false,
+        autolink: false,
+        defaultProtocol: "https",
+        HTMLAttributes: {
+          class: "text-blue-500 cursor-pointer",
+          rel: "noopener noreferrer",
+          target: "_blank",
+        },
+      }),
       Underline,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
       Highlight.configure({ multicolor: true }),
@@ -177,6 +186,8 @@ export default function ResumeWorkspace({ resume }: { resume: any }) {
           onSave={save}
           onReview={() => reanalyze()}
           onApplySuggestion={applySuggestion}
+          canReanalyze={canReanalyze}
+          totalTokens={totalTokens}
         />
       </div>
     </main>

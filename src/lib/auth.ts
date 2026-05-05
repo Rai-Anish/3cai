@@ -40,7 +40,30 @@ export const auth = betterAuth({
     provider: "pg",
     schema,
   }),
+  user: {
+    deleteUser: {
+      enabled: true,
+      cascade: true,
+      beforeDelete: async (user) => {
+        const record = await db.query.user.findFirst({
+          where: (u, { eq }) => eq(u.id, user.id),
+        });
 
+        if (record?.stripeCustomerId) {
+          const subscriptions = await stripeClient.subscriptions.list({
+            customer: record.stripeCustomerId,
+            status: "active",
+          });
+
+          for (const sub of subscriptions.data) {
+            await stripeClient.subscriptions.update(sub.id, {
+              cancel_at_period_end: true,
+            });
+          }
+        }
+      },
+    },
+  },
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,
@@ -182,15 +205,15 @@ export const auth = betterAuth({
           // Safe nested extraction
           const planObj =
             typeof previousAttributes.plan === "object" &&
-            previousAttributes.plan !== null
+              previousAttributes.plan !== null
               ? (previousAttributes.plan as Record<string, unknown>)
               : null;
 
           const itemsArr =
             typeof previousAttributes.items === "object" &&
-            previousAttributes.items !== null
+              previousAttributes.items !== null
               ? ((previousAttributes.items as Record<string, unknown>)
-                  .data as unknown[])
+                .data as unknown[])
               : null;
 
           const firstItem =

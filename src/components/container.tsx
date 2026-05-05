@@ -10,7 +10,7 @@ type Props = {
 
 export const Container = ({ children, className, as: Component = "div" }: Props) => {
   return (
-    <Component className={cn("mx-auto w-full max-w-450", className)}>
+    <Component className={cn("md:mx-auto overflow-x-hidden  w-full md:max-w-450", className)}>
       {children}
     </Component>
   )

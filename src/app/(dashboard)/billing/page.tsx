@@ -8,12 +8,9 @@ export default async function BillingPage() {
   const { subscription, balance, invoices } = await getBillingDashboardData();
   
   const currentPlan = billingPlan.find(p => p.name === (subscription?.plan ?? "Free"));
-  const tokenLimit = currentPlan?.limits.tokens ?? 5;
+  const tokenLimit = currentPlan?.limits.tokens ?? 50;
   
-  // Total usable balance from both your sub and top-ups
   const totalBalance = (balance?.subscriptionBalance ?? 0) + (balance?.creditBalance ?? 0);
-
-    // FIXED: Added optional chaining and safe fallback for plan comparison
   const isFree = !subscription || subscription?.plan?.toLowerCase() === "free";
 
   return (
@@ -24,7 +21,16 @@ export default async function BillingPage() {
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2">
+        <div className="lg:order-2">
+          <CreditUsage 
+            balance={totalBalance} 
+            limit={tokenLimit} 
+            isFree={isFree} 
+            isCancelled={subscription?.cancelAtPeriodEnd || false} 
+          />
+        </div>
+
+        <div className="lg:col-span-2 lg:order-1">
           <SubscriptionCard 
             isFree={isFree}
             subscription={subscription} 
@@ -32,10 +38,11 @@ export default async function BillingPage() {
             planDetails={currentPlan} 
           />
         </div>
-        <CreditUsage balance={totalBalance} limit={tokenLimit} isFree={isFree} isCancelled={subscription?.cancelAtPeriodEnd || false} />
       </div>
 
-      <TransactionHistory invoices={invoices} />
+      <div className="mt-6">
+        <TransactionHistory invoices={invoices} />
+      </div>
     </div>
   );
 }

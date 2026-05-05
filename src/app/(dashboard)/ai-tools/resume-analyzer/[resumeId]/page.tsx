@@ -5,6 +5,8 @@ import { db } from "@/db";
 import { auth } from "@/lib/auth";
 import { resumeAnalysis } from "@/db/schemas";
 import ResumeWorkspace from "./_components/resume-workspace";
+import { getTokenBalance } from "@/services/tokens/token-service";
+import { TOKEN_CONFIG } from "@/services/tokens/token-config";
 
 export default async function ResumeDetailPage({
   params,
@@ -16,6 +18,9 @@ export default async function ResumeDetailPage({
 
   if (!session?.user?.id) redirect("/sign-in");
 
+  const tokenBalance = await getTokenBalance(session.user.id);
+  const totalTokens = (tokenBalance?.subscriptionBalance ?? 0) + (tokenBalance?.creditBalance ?? 0);
+  const canReanalyze = totalTokens >= TOKEN_CONFIG.COSTS.ai_resume_analysis;
   const [resume] = await db
     .select()
     .from(resumeAnalysis)
@@ -24,7 +29,7 @@ export default async function ResumeDetailPage({
 
   if (!resume) notFound();
 
-  return <ResumeWorkspace resume={resume} />;
+  return <ResumeWorkspace resume={resume} canReanalyze={canReanalyze} totalTokens={totalTokens} />;
 }
 
 

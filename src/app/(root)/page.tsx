@@ -1,19 +1,19 @@
 import { FeaturesCta } from "./_components/cta-section";
-import { FeaturesGrid } from "./_components/feature_grid";
+import { FeaturesGrid } from "./_components/feature-grid";
 import { Hero } from "./_components/hero";
 import { ProductDemo } from "./_components/product-demo";
 import { ProofSection } from "./_components/proof-section";
 
 export default function Home() {
   return (
-    <main className="flex flex-col">
+    <>
       <Hero />
       <TrustLogos />
       <ProductDemo />
       <FeaturesCta />
       <FeaturesGrid />
       <ProofSection />
-    </main>
+    </>
   );
 }
 

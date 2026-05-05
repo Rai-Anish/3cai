@@ -1,7 +1,5 @@
 "use client";
 
-import React from "react";
-
 const STATS = [
   { value: "91%", label: "Average ATS score after optimization" },
   { value: "3.2×", label: "More interview callbacks" },
@@ -44,9 +42,9 @@ export function FeaturesCta() {
         </h2>
 
         <p className="mx-auto mt-6 max-w-xl text-center text-base leading-relaxed text-muted-foreground md:text-lg">
-          From your resume to your roadmap, 3CAI handles every layer of your
-          job search — so you spend less time preparing and more time getting
-          offers.
+          From your resume to your roadmap, our platform handles every layer of your
+          career journey. So you can focus on acing your interviews and getting
+          the job offers you deserve.
         </p>
 
         {/* Stats row */}
@@ -69,15 +67,6 @@ export function FeaturesCta() {
               </span>
             </div>
           ))}
-        </div>
-
-        {/* Bottom rule */}
-        <div className="mt-16 flex items-center gap-4">
-          <div className="h-px flex-1 bg-white/5" />
-          <span className="font-mono text-[10px] uppercase tracking-widest text-zinc-700">
-            Scroll to explore
-          </span>
-          <div className="h-px flex-1 bg-white/5" />
         </div>
 
       </div>

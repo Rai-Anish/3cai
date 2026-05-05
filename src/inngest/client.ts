@@ -1,4 +1,3 @@
-// lib/inngest/client.ts
 import { Inngest } from "inngest";
 import type { FeatureKey } from "@/services/tokens/token-config";
 

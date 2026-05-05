@@ -1,10 +1,12 @@
 // (dashboard)/layout.tsx
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "./_components/side-bar";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { DashboardHeader } from "./_components/dashboard-header";
+import { MobileBottomNav } from "./_components/mobile-menu";
+import { Container } from "@/components/container";
 
 export default async function DashboardLayout({
   children,
@@ -21,17 +23,22 @@ export default async function DashboardLayout({
 
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen w-full bg-background">
-        <AppSidebar />
-        <main className="flex-1 overflow-y-auto">
+      <Container className="flex max-h-fit">
+        {/* Sidebar — hidden on mobile, visible on md+ */}
+        <div className="hidden md:block">
+          <AppSidebar />
+        </div>
+
+        <main className="flex-1 overflow-y-auto pb-20 md:pb-0">
           {/* Global Header */}
           <DashboardHeader />
-          
-          <div>
-            {children}
-          </div>
+
+          <div>{children}</div>
         </main>
-      </div>
+      </Container>
+
+      {/* Mobile bottom nav — only visible on mobile */}
+      <MobileBottomNav />
     </SidebarProvider>
   );
 }

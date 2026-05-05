@@ -19,11 +19,11 @@ export default function PricingPage() {
             <span className="font-serif italic font-normal text-primary">potential.</span>
           </h1>
           <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-            Choose the level of support that matches your ambition. No hidden fees, no complex tiers—just the tools you need to grow.
+            Choose the level of support that matches your ambition. No hidden fees, no complex tiers, just the tools you need to grow.
           </p>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 items-center">
           {billingPlan.map((plan, idx) => (
             <div key={plan.name} className={cn(
               idx === 0 && "animate-cs-fadeup-1",

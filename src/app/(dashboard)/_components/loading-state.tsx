@@ -1,4 +1,3 @@
-// components/dashboard/loading-state.tsx
 import { Skeleton } from "@/components/ui/skeleton";
 
 export function DashboardLoading() {

@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Sparkles } from "lucide-react";
+import { Rocket} from "lucide-react";
 
 export function Hero() {
   return (
@@ -11,18 +11,18 @@ export function Hero() {
           variant="outline"
           className="mb-6 px-4 py-1 border-primary/20 bg-primary/5 text-primary animate-cs-fadeup-1"
         >
-          <Sparkles className="w-3.5 h-3.5 mr-2" />
+          <Rocket className="w-3.5 h-3.5 mr-2" />
           AI Career Acceleration Platform
         </Badge>
 
         <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-8 max-w-4xl leading-[0.9] animate-cs-fadeup-2">
           GET HIRED FASTER <br />
-          WITH <span className="font-serif italic font-normal text-primary tracking-wide">AI THAT ACTUALLY UNDERSTANDS YOU</span>
+          WITH <span className="font-serif italic font-normal text-primary tracking-wide">3C AI</span>
         </h1>
 
         <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-10 animate-cs-fadeup-3">
-          From resume optimization to real-time career coaching and personalized roadmaps —
-          everything you need to stand out, get interviews, and land better roles.
+          From resume optimization to real-time career coaching and personalized roadmaps. 
+          Everything you need to stand out, get interviews, and land better jobs.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 animate-cs-fadeup-4">

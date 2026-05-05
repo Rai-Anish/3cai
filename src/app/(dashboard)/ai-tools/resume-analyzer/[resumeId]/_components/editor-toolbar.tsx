@@ -23,6 +23,7 @@ import {
   Undo2,
 } from "lucide-react";
 import { ToolButton } from "./tool-button";
+import { LinkTool } from "./link-tool";
 
 const fontFamilies = [
   { label: "Default", value: "" },
@@ -33,21 +34,9 @@ const fontFamilies = [
   { label: "Courier", value: '"Courier New", monospace' },
 ];
 
-const fontSizes = ["10px", "11px", "12px", "13px", "14px", "16px", "18px", "20px", "24px", "28px", "32px"];
+const fontSizes = ["10px", "11px", "12px", "13px", "14px", "16px", "18px", "20px", "24px", "28px", "32px", "36px","40px","48px","56px","64px"];
 
 export function EditorToolbar({ editor }: { editor: Editor }) {
-  function setLink() {
-    const previousUrl = editor.getAttributes("link").href;
-    const url = window.prompt("Paste URL", previousUrl);
-
-    if (url === null) return;
-    if (url === "") {
-      editor.chain().focus().extendMarkRange("link").unsetLink().run();
-      return;
-    }
-
-    editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
-  }
 
   function setFontFamily(event: ChangeEvent<HTMLSelectElement>) {
     const fontFamily = event.target.value;
@@ -122,7 +111,7 @@ export function EditorToolbar({ editor }: { editor: Editor }) {
         <ToolButton label="Right" onClick={() => editor.chain().focus().setTextAlign("right").run()}><AlignRight /></ToolButton>
         <Divider />
 
-        <ToolButton label="Link" onClick={setLink}><LinkIcon /></ToolButton>
+        <LinkTool editor={editor} />
         <ToolButton label="Highlight" onClick={() => editor.chain().focus().toggleHighlight({ color: "#fff8c5" }).run()}><Highlighter /></ToolButton>
         <ToolButton label="Table" onClick={() => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()}><Table /></ToolButton>
         <ToolButton label="Add row" onClick={() => editor.chain().focus().addRowAfter().run()}><Rows3 /></ToolButton>

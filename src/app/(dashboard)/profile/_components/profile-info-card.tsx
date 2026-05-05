@@ -62,7 +62,7 @@ export function PersonalInfoCard({
           Personal Info
         </h3>
 
-        {/* Avatar + name row */}
+        {/* Avatar name row */}
         <div className="flex items-center gap-5 mb-6">
           <div className="relative shrink-0">
             <div className="h-16 w-16 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center">
@@ -70,7 +70,6 @@ export function PersonalInfoCard({
                 {initials}
               </span>
             </div>
-            <div className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-primary border-2 border-card" />
           </div>
           <div className="min-w-0">
             <p className="font-mono text-xs text-muted-foreground uppercase tracking-widest">

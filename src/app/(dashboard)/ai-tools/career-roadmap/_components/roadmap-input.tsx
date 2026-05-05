@@ -110,7 +110,7 @@ export const RoadmapInput = ({ roadmapId, onStartPolling, isGenerating, title, u
           className="bg-primary hover:bg-primary/90 text-black font-bold shadow-[0_0_15px_rgba(233,255,185,0.2)] w-full py-6 cursor-pointer group"
         >
           {isGenerating ? (
-            <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> SYNTHESIZING...</>
+            <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> GENERATING...</>
           ) : (
             <span className="flex items-center gap-2">
                Generate Roadmap <Rocket className="h-4 w-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />

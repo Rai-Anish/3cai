@@ -107,7 +107,7 @@ export function RoadmapTimeline() {
                   {/* Node circle */}
                   <div
                     className={[
-                      "relative flex items-center justify-center w-12 h-12 rounded-full border-2 transition-all duration-300",
+                      "relative flex items-center justify-center w-9 h-9 md:w-12 md:h-12 rounded-full border-2 transition-all duration-300",
                       isActive
                         ? m.isStart
                           ? "node-purple border-[#ac89ff] bg-[#ac89ff]/15"
@@ -158,7 +158,7 @@ export function RoadmapTimeline() {
         {/* Detail card for active milestone */}
         <div
           key={activeIndex}
-          className="w-full max-w-sm rounded-2xl border p-6 transition-all duration-300"
+          className="w-full  max-w-sm rounded-2xl border p-6 transition-all duration-300"
           style={{
             borderColor: `${MILESTONES[activeIndex].color}30`,
             background: `${MILESTONES[activeIndex].color}08`,
@@ -219,7 +219,7 @@ export function RoadmapTimeline() {
         </div>
 
         <p className="font-mono text-[10px] text-zinc-500 uppercase tracking-[0.2em] opacity-40">
-          Click nodes to navigate through different sections
+           Click on nodes to explore the Roadmap
         </p>
       </div>
     </>

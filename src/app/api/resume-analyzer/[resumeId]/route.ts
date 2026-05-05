@@ -6,6 +6,8 @@ import { auth } from "@/lib/auth";
 import { inngest } from "@/inngest/client";
 import { resumeAnalysis } from "@/db/schemas";
 import { renderResumeDocumentToText } from "@/lib/ai/resume/resume-utils";
+import { getTokenBalance } from "@/services/tokens/token-service";
+import { TOKEN_CONFIG } from "@/services/tokens/token-config";
 
 function resumeJsonToText(resumeJson: any) {
   if (resumeJson?.editor === "tiptap-v1") {
@@ -67,6 +69,13 @@ export async function POST(req: Request, { params }: { params: Promise<{ resumeI
   const session = await auth.api.getSession({ headers: await headers() });
 
   if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  // Checking balance before allowing re-analysis
+  const balance = await getTokenBalance(session.user.id);
+  const totalBalance = (balance?.subscriptionBalance ?? 0) + (balance?.creditBalance ?? 0);
+  if (totalBalance < TOKEN_CONFIG.COSTS.ai_resume_analysis) {
+    return NextResponse.json({ error: "Insufficient tokens" }, { status: 402 });
+  }
 
   const body = await req.json();
 

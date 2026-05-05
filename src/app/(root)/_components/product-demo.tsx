@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { User, Sparkles, Send } from "lucide-react";
+import { User, Send,} from "lucide-react";
+import { RiRobot3Fill } from "react-icons/ri";
 
 type Sender = "user" | "ai";
 
@@ -13,15 +14,15 @@ interface ChatLine {
 const CHAT_SCRIPT: ChatLine[] = [
   {
     sender: "user",
-    text: "I have 2 years of experience in React and Node.js. I want to transition into AI/ML engineering but I don't know where to start — I feel like I'm already behind.",
+    text: "I have 2 years of experience in React and Node.js. I want to transition into AI/ML engineering but I don't know where to start. I feel like I'm already behind.",
   },
   {
     sender: "ai",
-    text: "You're not behind — you're repositioning, which is different. Your full-stack background is actually an advantage. Most ML engineers can't build production systems. You already can.",
+    text: "You're not behind. You're repositioning, which is different. Your full-stack background is actually an advantage. Most ML engineers can't build production systems. You already can.",
   },
   {
     sender: "ai",
-    text: "The real gap isn't algorithms — it's applied ML intuition. That means learning when to use a model, how to evaluate it honestly, and how to ship it. Start with that, not math theory.",
+    text: "The real gap isn't algorithms. It's applied ML intuition. That means learning when to use a model, how to evaluate it honestly, and how to ship it. Start with that, not math theory.",
   },
   {
     sender: "user",
@@ -29,7 +30,7 @@ const CHAT_SCRIPT: ChatLine[] = [
   },
   {
     sender: "ai",
-    text: "Kaggle teaches you to overfit leaderboards — not to solve problems. Instead, pick one thing you understand deeply — say, job postings — and build something end-to-end: scrape data, fine-tune a small model, expose an API, deploy it.",
+    text: "Kaggle teaches you to overfit leaderboards, not to solve problems. Instead, pick one thing you understand deeply, say job postings, and build something end-to-end: scrape data, fine-tune a small model, expose an API, deploy it.",
   },
   {
     sender: "ai",
@@ -115,7 +116,7 @@ export function ProductDemo() {
             <div className="flex items-center justify-between border-b border-white/5 bg-zinc-900/50 px-8 py-5">
               <div className="flex items-center gap-4">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full border border-primary/30 bg-primary/20">
-                  <Sparkles className="h-5 w-5 text-primary" />
+                  <RiRobot3Fill className="h-5 w-5 text-primary" />
                 </div>
                 <div>
                   <h4 className="text-sm font-bold">3CAI Career Coach</h4>
@@ -148,7 +149,7 @@ export function ProductDemo() {
                       {msg.sender === "user" ? (
                         <User className="h-4 w-4 text-zinc-400" />
                       ) : (
-                        <Sparkles className="h-4 w-4 text-primary" />
+                        <RiRobot3Fill className="h-4 w-4 text-primary" />
                       )}
                     </div>
 
@@ -167,7 +168,7 @@ export function ProductDemo() {
                 {isTyping && (
                   <div className="flex gap-3" style={{ animation: "cs-fadeUp 0.2s ease both" }}>
                     <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-primary/20 bg-primary/20">
-                      <Sparkles className="h-4 w-4 text-primary" />
+                      <RiRobot3Fill className="h-4 w-4 text-primary" />
                     </div>
                     <div className="flex items-center gap-1.5 rounded-3xl rounded-tl-sm border border-primary/10 bg-primary/5 px-4 py-3">
                       {[0, 1, 2].map((i) => (

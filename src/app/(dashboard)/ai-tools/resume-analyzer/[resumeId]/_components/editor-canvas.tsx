@@ -19,6 +19,7 @@ import {
   UnderlineIcon,
 } from "lucide-react";
 import { ToolButton } from "./tool-button";
+import { LinkTool } from "./link-tool";
 
 const colors = ["#111827", "#6b7280", "#a3ff12", "#60a5fa", "#a78bfa", "#fb7185", "#f59e0b"];
 
@@ -42,19 +43,6 @@ export function EditorCanvas({
   resume: any;
   onImproveSelection: () => void;
 }) {
-  function setLink() {
-    const previousUrl = editor.getAttributes("link").href;
-    const url = window.prompt("Paste URL", previousUrl);
-
-    if (url === null) return;
-
-    if (url === "") {
-      editor.chain().focus().extendMarkRange("link").unsetLink().run();
-      return;
-    }
-
-    editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
-  }
 
   function duplicateSelection() {
     const { from, to } = editor.state.selection;
@@ -142,9 +130,7 @@ export function EditorCanvas({
             <ToolButton active={editor.isActive("underline")} label="Underline" onClick={() => editor.chain().focus().toggleUnderline().run()}>
               <UnderlineIcon />
             </ToolButton>
-            <ToolButton label="Link" onClick={setLink}>
-              <LinkIcon />
-            </ToolButton>
+            <LinkTool editor={editor}  />
             <ToolButton label="AI improve" onClick={onImproveSelection}>
               <Bot />
             </ToolButton>

@@ -98,8 +98,8 @@ export default function CareerRoadmapPage() {
                       <div className="w-16 h-16 rounded-full bg-accent shadow-[0_0_20px_var(--color-accent)] flex items-center justify-center text-white font-bold">YOU</div>
                       
                       {/* Floating nodes */}
-                      <div className="absolute top-10 left-10 w-10 h-10 rounded-lg bg-primary/20 border border-primary/30 flex items-center justify-center text-[10px] text-primary font-bold">GCP</div>
-                      <div className="absolute bottom-10 right-20 w-12 h-12 rounded-lg bg-secondary/20 border border-secondary/30 flex items-center justify-center text-[10px] text-secondary font-bold">PRINCE2</div>
+                      <div className="absolute top-10 left-10 w-10 h-10 rounded-lg bg-primary/20 border border-primary/30 flex items-center justify-center text-[10px] text-primary font-bold">AWS</div>
+                      <div className="absolute bottom-10 right-20 w-12 h-12 rounded-lg bg-secondary/20 border border-secondary/30 flex items-center justify-center text-[10px] text-secondary font-bold">PMP</div>
                       <div className="absolute top-1/2 -right-4 w-10 h-10 rounded-lg bg-accent/20 border border-accent/30 flex items-center justify-center text-[10px] text-accent font-bold">AI</div>
 
                       <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-20">

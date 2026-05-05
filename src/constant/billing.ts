@@ -13,9 +13,9 @@ export const billingPlan: BillingPlan[] = [
     name: "free",
     priceId: "price_1TOJQ4RaUpUkrJxzbUspAfS9", 
     price: "$0",
-    limits: { tokens: 5 },
+    limits: { tokens: 50 },
     features: [
-      "1 AI Resume Analysis",
+      "50 AI tokens ",
       "1 Mock Interview Session",
       "Basic Career Roadmap",
     ],
@@ -26,8 +26,9 @@ export const billingPlan: BillingPlan[] = [
     price: "$9.99",
     limits: { tokens: 1000 },
     features: [
-      "Unlimited Resume Analysis",
-      "Unlimited AI Mock Interviews",
+      "1000 AI tokens",
+      "AI-powered Resume Analysis",
+      "AI Mock Interview Sessions",
       "Cover Letter Generator",
       "Smart Course Recommendations",
       "Salary Negotiation Bot",
@@ -39,7 +40,8 @@ export const billingPlan: BillingPlan[] = [
     price: "$15.99",
     limits: { tokens: 3000 },
     features: [
-      "Everything in Pro",
+      "3000 AI tokens",
+      "Everything in Pro Plan",
       "Priority AI Processing (GPT-4o)",
       "LinkedIn Profile Optimization",
       "Direct Referral Network",

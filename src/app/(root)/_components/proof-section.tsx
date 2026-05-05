@@ -22,13 +22,12 @@ export function ProofSection() {
                 {/* Headline */}
                 <h2 className="text-4xl md:text-6xl font-black tracking-tighter leading-[0.95] mb-6 animate-cs-fadeup-2">
                     SEE WHAT’S HOLDING YOU BACK <br />
-                    <span className="font-serif italic font-normal text-primary leading-2 tracking-wide ">— AND FIX IT INSTANTLY</span>
+                    <span className="font-serif italic font-normal text-primary leading-2 tracking-wide ">AND FIX IT INSTANTLY</span>
                 </h2>
 
                 {/* Subtext */}
                 <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-10 animate-cs-fadeup-3">
-                    Most candidates don’t get rejected because they lack skills — they get filtered out before anyone notices them.
-                    Our AI shows you exactly where you’re losing opportunities and how to fix it in seconds.
+                   Whether you're waiting to hear back or haven't started yet, something small is likely standing between you and the job. Let's find it.
                 </p>
 
                 {/* CTA Buttons */}
@@ -59,7 +58,7 @@ export function ProofSection() {
 
                     <div className="flex items-center gap-2 text-xs font-mono text-zinc-600 mt-2">
                         <CheckCircle2 className="w-4 h-4" />
-                        Your data stays private — we never share or sell your information
+                        Your data stays private. We never share or sell your information
                     </div>
                 </div>
             </div>

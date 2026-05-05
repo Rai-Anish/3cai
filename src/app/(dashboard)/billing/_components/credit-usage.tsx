@@ -4,7 +4,7 @@ export function CreditUsage({
   balance, 
   limit, 
   isFree, 
-  isCancelled // New prop
+  isCancelled 
 }: { 
   balance: number; 
   limit: number; 

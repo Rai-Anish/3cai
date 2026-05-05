@@ -1,6 +1,7 @@
 "use client";
 
-import { Star, Sparkles, ArrowRight } from "lucide-react";
+import { Star, ArrowRight } from "lucide-react";
+import { BsFillClipboard2CheckFill } from "react-icons/bs";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -85,7 +86,7 @@ export default function ResultsPage() {
                 {/* HEADER */}
                 <div className="text-center space-y-6 animate-cs-fadeup-1">
                     <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full border border-primary/20 bg-primary/10 text-primary">
-                        <Sparkles className="w-3.5 h-3.5" />
+                        <BsFillClipboard2CheckFill className="w-3.5 h-3.5" />
                         Real Career Outcomes
                     </div>
 
@@ -127,7 +128,7 @@ export default function ResultsPage() {
                 </div>
 
                 {/* TESTIMONIALS */}
-                <div className="grid md:grid-cols-3 gap-8 animate-cs-fadeup-3">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 animate-cs-fadeup-3">
                     {testimonials.map((t, i) => {
                         const style = toneStyles[t.tone as keyof typeof toneStyles];
 

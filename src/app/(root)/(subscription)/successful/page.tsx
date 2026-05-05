@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { getBillingDashboardData } from "@/services/billing/billing.service";
-// Optional: If you have a confetti component, import it here
-// import Confetti from "@/components/ui/confetti"; 
 
 export default async function BillingSuccessPage() {
     const { subscription } = await getBillingDashboardData();

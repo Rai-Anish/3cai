@@ -20,7 +20,8 @@ const PROTECTED_ROUTES = [
   "/subscription",
   "/profile",
   "/cancelled",
-  "/successful"
+  "/successful",
+  "/ai-tools",
 ];
 
 export async function proxy(request: NextRequest) {
@@ -41,11 +42,13 @@ export async function proxy(request: NextRequest) {
     headers: await headers(),
   });
 
-  const isPublicRoute = PUBLIC_ROUTES.some((r) => pathname.startsWith(r));
+  const isPublicRoute = PUBLIC_ROUTES.some((route) => {
+  return pathname === route || pathname.startsWith(`${route}/`);
+});
   const isAuthRoute = AUTH_ROUTES.some((r) => pathname.startsWith(r));
-  const isProtectedRoute = PROTECTED_ROUTES.some((r) =>
-    pathname.startsWith(r)
-  );
+  const isProtectedRoute = PROTECTED_ROUTES.some((route) => {
+  return pathname === route || pathname.startsWith(`${route}/`);
+});
 
   // Logged-in user visiting sign-in/sign-up → workspace
   if (session && isAuthRoute) {

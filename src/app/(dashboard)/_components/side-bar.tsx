@@ -1,9 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { MdDashboard, MdChevronRight, MdExpandMore } from "react-icons/md";
+import { MdDashboard, MdExpandMore } from "react-icons/md";
 import { TbTools } from "react-icons/tb";
-import { RiFileHistoryLine } from "react-icons/ri";
 import { IoWalletSharp, IoPerson, IoDiamondOutline } from "react-icons/io5";
 import {
   Sidebar,
@@ -19,6 +18,7 @@ import {
   SidebarMenuSubItem,
   SidebarFooter,
   SidebarHeader,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import {
   Collapsible,
@@ -26,11 +26,11 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { usePathname, useRouter } from "next/navigation";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
 import Logo from "@/components/logo";
+import { SignOutButton } from "@/components/signout-button";
 
 const items = [
   { title: "Workspace", url: "/workspace", icon: MdDashboard },
@@ -45,7 +45,6 @@ const items = [
       { title: "Cover Letter Generator", url: "/ai-tools/cover-letter-generator" },
     ],
   },
-  // { title: "My History", url: "/history", icon: RiFileHistoryLine },
   { title: "Billing", url: "/billing", icon: IoWalletSharp },
   { title: "Profile", url: "/profile", icon: IoPerson },
   { title: "Plans", url: "/pricing", icon: IoDiamondOutline },
@@ -56,36 +55,26 @@ export function AppSidebar() {
   const router = useRouter();
 
   const aiToolsItem = items.find((item) => item.title === "AI Tools");
-  const aiToolsActive = 
+  const aiToolsActive =
     pathname.startsWith("/ai-tools");
 
   const [aiToolsOpen, setAiToolsOpen] = React.useState(Boolean(aiToolsActive));
 
-  const handleSignOut = async () =>
-    await authClient.signOut({
-      fetchOptions: {
-        onSuccess: () => {
-          router.push("/");
-        },
-      },
-    });
-
   return (
-    <Sidebar className="border-r border-border/50 bg-card/30 backdrop-blur-xl">
+    <Sidebar className="relative border-r border-border/50 bg-card/30 backdrop-blur-xl">
       <SidebarHeader className="p-6">
         <div className="flex items-center gap-3">
           <div className="flex items-center justify-center">
             <Logo />
-          </div>
-
-          <div className="flex flex-col">
-            <h3 className="font-mono text-md tracking-tighter">
-              3CAI Career Engine
-            </h3>
-            <span className="font-mono text-xs tracking-tighter text-foreground">
-              Ask Learn Build
-            </span>
-          </div>
+          </div> 
+            <div className="flex flex-col">
+              <h3 className="font-mono text-md tracking-tighter">
+                3CAI Career Engine
+              </h3>
+              <span className="text-xs text-foreground">
+                Ask Learn Build
+              </span>
+            </div>
         </div>
       </SidebarHeader>
 
@@ -98,8 +87,8 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => {
-                const isActive = item.subItems 
-                  ? pathname.startsWith(item.url) 
+                const isActive = item.subItems
+                  ? pathname.startsWith(item.url)
                   : pathname === item.url;
 
                 if (item.subItems) {
@@ -124,7 +113,7 @@ export function AppSidebar() {
                                 className={`h-4 w-4 transition-transform duration-200 ${isActive ? "animate-pulse" : ""
                                   }`}
                               />
-                              <span className="font-mono text-xs uppercase tracking-widest">
+                              <span className="font-mono text-xs uppercase tracking-widest group-data-[collapsible=icon]:hidden">
                                 {item.title}
                               </span>
                               <MdExpandMore className="ml-auto h-4 w-4 transition-transform duration-300 ease-in-out group-data-open/collapsible:rotate-180" />
@@ -173,7 +162,7 @@ export function AppSidebar() {
                       <item.icon
                         className={`h-4 w-4 ${isActive ? "animate-pulse" : ""}`}
                       />
-                      <span className="font-mono text-xs uppercase tracking-widest">
+                      <span className="font-mono text-xs uppercase tracking-widest group-data-[collapsible=icon]:hidden">
                         {item.title}
                       </span>
                     </SidebarMenuButton>
@@ -186,7 +175,7 @@ export function AppSidebar() {
       </SidebarContent>
 
       <SidebarFooter className="border-t border-border/10 p-4">
-        <Button onClick={handleSignOut}>Sign Out</Button>
+        <SignOutButton />
       </SidebarFooter>
     </Sidebar>
   );
