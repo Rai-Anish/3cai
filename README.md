@@ -7,17 +7,27 @@
 [![Drizzle ORM](https://img.shields.io/badge/Drizzle_ORM-0.45-yellow?style=for-the-badge&logo=drizzle)](https://orm.drizzle.team/)
 [![Stripe](https://img.shields.io/badge/Stripe-Integration-blueviolet?style=for-the-badge&logo=stripe)](https://stripe.com/)
 
-3CAI is a comprehensive, next-generation AI-powered platform designed to revolutionize career counseling. By leveraging cutting-edge Large Language Models (LLMs) and advanced visual workflows, 3CAI provides highly personalized guidance, dynamic career roadmaps, and professional document optimization to help users achieve their professional ambitions.
+3CAI is an AI-powered platform for Career Counseling. UsingLarge Language Models (LLMs) and advanced visual workflows, 3CAI provides highly personalized guidance, dynamic career roadmaps, and professional document optimization to help users achieve their professional ambitions.
 
 ## 🚀 Key Features
 
-*   **Interactive AI Career Roadmap**: Generate dynamic, visual step-by-step career paths using `@xyflow/react`. Visualize your journey from your current position to your dream role with interactive node-based maps.
+*   **Interactive AI Career Roadmap**: Generate dynamic, visual step-by-step career paths using `@xyflow/react`.
 *   **AI CV Analyzer & Optimizer**: Upload your resume and receive instant, actionable, AI-driven feedback to optimize it for Applicant Tracking Systems (ATS) and human recruiters.
 *   **Smart Cover Letter Generator**: Generate professional, highly tailored cover letters specifically crafted for the exact job roles and companies you are targeting, utilizing advanced LLM reasoning.
 *   **AI Career Assistant (Chat)**: A dedicated 24/7 AI coach powered by LangChain and advanced AI models to answer your specific career-related questions, prepare you for interviews, and provide continuous mentorship.
 *   **Rich Text Editor**: Fully integrated rich-text editing experience powered by TipTap for customizing and refining your generated cover letters and CVs.
 *   **Subscription Management**: Seamlessly upgrade to premium features with integrated, secure Stripe payments, offering flexible pricing tiers.
 *   **Robust Background Processing**: Reliable background workflows and scheduled tasks powered by Inngest, ensuring heavy AI processing doesn't block the user experience.
+
+## 🖼️ Project UI & Demo
+
+### Showcase
+| Feature | Preview |
+|---------|---------|
+| **Dashboard** | ![Dashboard Preview](https://via.placeholder.com/800x450?text=3CAI+Dashboard+Preview) |
+| **Career Roadmap** | ![Roadmap Preview](https://via.placeholder.com/800x450?text=Visual+Career+Roadmap+Demo) |
+| **CV Analyzer** | ![CV Analyzer Preview](https://via.placeholder.com/800x450?text=AI+CV+Analysis+Interface) |
+
 
 ## 🛠️ Technology Stack
 
@@ -50,7 +60,7 @@
 ```mermaid
 graph TD
     Client["Client (Browser)"]
-    NextJS["Next.js Application (App Router)"]
+    NextJS["Next.js Application"]
     DB[("PostgreSQL Database\n(via Drizzle ORM)")]
     Auth["Better Auth"]
     Inngest["Inngest (Background Jobs)"]
@@ -61,7 +71,7 @@ graph TD
     Client <-->|HTTP/React| NextJS
     NextJS <-->|OAuth/Session| Auth
     NextJS <-->|SQL| DB
-    NextJS -->|Webhooks/Events| Inngest
+    NextJS -->|CRON/Events| Inngest
     Inngest <-->|Background AI Processing| LLMs
     NextJS <-->|Webhooks/API| Stripe
     NextJS <-->|Uploads| Cloudinary
