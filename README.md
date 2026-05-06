@@ -99,6 +99,68 @@ sequenceDiagram
     App-->>User: Display Interactive Roadmap / Feedback
 ```
 
+### Database Schema
+
+```mermaid
+erDiagram
+    USER ||--o{ SESSION : has
+    USER ||--o{ ACCOUNT : has
+    USER ||--o| TOKEN_BALANCE : owns
+    USER ||--o{ TOKEN_USAGE_LOG : generates
+    USER ||--o{ ROADMAP : creates
+    USER ||--o{ RESUME_ANALYSIS : analyzes
+    USER ||--o| SUBSCRIPTION : subscribes_via_stripe
+
+    USER {
+        string id PK
+        string name
+        string email
+        boolean emailVerified
+        string stripeCustomerId
+    }
+    SESSION {
+        string id PK
+        string userId FK
+        timestamp expiresAt
+    }
+    ACCOUNT {
+        string id PK
+        string userId FK
+        string providerId
+    }
+    SUBSCRIPTION {
+        string id PK
+        string stripeCustomerId
+        string plan
+        string status
+    }
+    TOKEN_BALANCE {
+        string id PK
+        string userId FK
+        int subscriptionBalance
+        int creditBalance
+        timestamp nextResetAt
+    }
+    TOKEN_USAGE_LOG {
+        string id PK
+        string userId FK
+        int tokensUsed
+        string feature
+    }
+    ROADMAP {
+        string id PK
+        string userId FK
+        string status
+        string model
+    }
+    RESUME_ANALYSIS {
+        string id PK
+        string userId FK
+        string status
+        int score
+    }
+```
+
 ## 📁 Project Structure
 
 ```text
