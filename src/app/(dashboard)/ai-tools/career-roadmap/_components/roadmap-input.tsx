@@ -58,7 +58,7 @@ export const RoadmapInput = ({ roadmapId, onStartPolling, isGenerating, title, u
       <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-y-6">
         <div className="space-y-1">
           <h2 className="text-2xl font-bold tracking-tighter text-foreground uppercase italic">
-            Trajectory <span className="text-primary not-italic">Engine</span>
+            Career Roadmap <span className="text-primary not-italic">Engine</span>
           </h2>
           {title && <p className="text-[10px] font-mono text-muted-foreground truncate">{title}</p>}
           {error && <p className="text-[10px] text-red-400 font-mono uppercase">Error: {error}</p>}
@@ -94,7 +94,6 @@ export const RoadmapInput = ({ roadmapId, onStartPolling, isGenerating, title, u
         </div>
 
         <div className="space-y-2 flex-1 flex flex-col">
-          <label className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">Input Mission Parameters</label>
           <Textarea
             value={prompt}
             onChange={e => setPrompt(e.target.value)}

@@ -18,7 +18,7 @@ export function RoadmapList({ roadmaps }: { roadmaps: Roadmap[] }) {
     return (
       <div className="border border-dashed border-border rounded-lg p-16 text-center">
         <p className="font-mono text-sm text-muted-foreground uppercase tracking-widest">
-          No trajectories found. Initialize first sequence.
+          No Career Roadmaps found. Generate one to get started.
         </p>
       </div>
     )
