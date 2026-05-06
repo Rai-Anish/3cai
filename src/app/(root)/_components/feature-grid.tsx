@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { RoadmapTimeline } from "./roadmap-timeline";
 import { RiRobot3Fill } from "react-icons/ri";
+import { cn } from "@/lib/utils";
 
 // ── Resume Visual ─────────────────────────────────────────────────────────────
 
@@ -385,7 +386,7 @@ export function FeaturesGrid() {
         return (
           <div
             key={index}
-            className={`flex flex-col-reverse lg:flex-row items-center gap-16 md:gap-24 `}
+            className={cn(`flex flex-col-reverse  items-center gap-16 md:gap-24 `,index%2==0?"lg:flex-row-reverse": "lg:flex-row")}
           >
             <div className="flex-1 w-full">
               <div className="rounded-3xl border border-white/5 bg-zinc-950/60 backdrop-blur-xl p-6 md:p-8 relative overflow-hidden">
