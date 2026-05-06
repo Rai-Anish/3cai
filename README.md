@@ -1,5 +1,6 @@
 # 3CAI - AI Career Counseling Coach
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Visit_Site-success?style=for-the-badge&logo=vercel)](https://career-engine-mu.vercel.app/)
 [![Next.js](https://img.shields.io/badge/Next.js-16+-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
@@ -21,13 +22,12 @@
 
 ## 🖼️ Project UI & Demo
 
-### Showcase
-| Feature | Preview |
-|---------|---------|
-| **Dashboard** | ![Dashboard Preview](https://via.placeholder.com/800x450?text=3CAI+Dashboard+Preview) |
-| **Career Roadmap** | ![Roadmap Preview](https://via.placeholder.com/800x450?text=Visual+Career+Roadmap+Demo) |
-| **CV Analyzer** | ![CV Analyzer Preview](https://via.placeholder.com/800x450?text=AI+CV+Analysis+Interface) |
+### 🎬 Product Demo Video
+Full product demo:
 
+<video src="public/screenshots/3Cai%20Demo.mp4" controls="controls" muted="muted" style="max-width: 100%; border-radius: 8px;">
+  Your browser does not support the video tag.
+</video>
 
 ## 🛠️ Technology Stack
 
