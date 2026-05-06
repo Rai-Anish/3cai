@@ -24,8 +24,10 @@
 
 ### 🎬 Product Demo Video
 Full product demo:
-<video src="https://github.com/Rai-Anish/3cai/blob/main/public/screenshots/3CaiDemo.mp4" controls muted width="630">
+<video src="https://github.com/user-attachments/assets/ae1fa237-c100-45b8-8de4-e8c6b6ae2251" controls muted width="630">
 </video>
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Visit_Site-success?style=for-the-badge&logo=vercel)](https://career-engine-mu.vercel.app/)
+
 
 ## 🛠️ Technology Stack
 
