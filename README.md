@@ -105,6 +105,11 @@ sequenceDiagram
 3cai/
 ├── src/
 │   ├── app/             # Next.js 16 App Router pages, layouts, and API routes
+│   │   ├── (auth)/      # Authentication-related pages
+│   │   ├── (dashboard)/ # Protected dashboard and AI tools routes
+│   │   ├── (root)/      # Public landing and marketing pages
+│   │   ├── actions/     # Next.js Server Actions
+│   │   └── api/         # API routes (Inngest, Webhooks, CRON, etc.)
 │   ├── components/      # Reusable UI components (Shadcn, Base UI, custom)
 │   ├── constant/        # Application-wide constants and configurations
 │   ├── db/              # Drizzle ORM schema, migrations, and database connection
@@ -112,11 +117,12 @@ sequenceDiagram
 │   ├── inngest/         # Inngest background functions and agent definitions
 │   ├── lib/             # Utility functions, auth configurations, and AI services
 │   ├── services/        # External API integrations and core business logic
-│   └── proxy.ts         # Proxy configurations
+│   └── proxy.ts         # Proxy (Middleware) configurations
 ├── drizzle/             # Generated SQL migrations
 ├── public/              # Static assets (images, fonts, etc.)
 ├── package.json         # Project dependencies and scripts
 └── ...configuration files (Tailwind, ESLint, TypeScript, Next.js)
+
 ```
 
 ## ⚙️ Getting Started
@@ -214,16 +220,7 @@ To fully run the application locally, you need three terminal instances running 
     npm run stripe:listen
     ```
 
-## 🤝 Contributing
+## 👨‍💻 Developed By
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-1.  Fork the Project
-2.  Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3.  Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4.  Push to the Branch (`git push origin feature/AmazingFeature`)
-5.  Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License.
+**Anish Rai**  
+*Full-Stack Software Engineer specializing in modern web development and AI integrations.*
