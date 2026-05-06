@@ -24,10 +24,9 @@
 
 ### 🎬 Product Demo Video
 Full product demo:
-
-<video src="public/screenshots/3Cai%20Demo.mp4" controls="controls" muted="muted" style="max-width: 100%; border-radius: 8px;">
-  Your browser does not support the video tag.
+<video src="public/screenshots/3CaiDemo.mp4" controls muted width="630">
 </video>
+
 
 ## 🛠️ Technology Stack
 
