@@ -24,9 +24,8 @@
 
 ### 🎬 Product Demo Video
 Full product demo:
-<video src="public/screenshots/3CaiDemo.mp4" controls muted width="630">
+<video src="https://github.com/Rai-Anish/3cai/blob/main/public/screenshots/3CaiDemo.mp4" controls muted width="630">
 </video>
-
 
 ## 🛠️ Technology Stack
 
