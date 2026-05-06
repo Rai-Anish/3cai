@@ -125,6 +125,27 @@ export const auth = betterAuth({
     user: {
       create: {
         after: async (user) => {
+          // Create Stripe customer synchronously becasuse createUserOnSingup doesn't work reliably
+          try {
+            const existing = await db.query.user.findFirst({
+              where: (u, { eq }) => eq(u.id, user.id),
+            });
+            
+            if (!existing?.stripeCustomerId) {
+              const customer = await stripeClient.customers.create({
+                email: user.email,
+                name: user.name,
+                metadata: { userId: user.id },
+              });
+
+              await db.update(schema.user)
+                .set({ stripeCustomerId: customer.id })
+                .where(eq(schema.user.id, user.id));
+            }
+          } catch (err) {
+            // Don't block signup if Stripe fails — log and continue
+            console.error("[auth] Failed to create Stripe customer:", err);
+          }
           await grantFreeTokens(user.id);
 
           await inngest.send({
